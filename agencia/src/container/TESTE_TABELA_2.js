@@ -180,7 +180,7 @@ class Tabela2 extends React.Component {
         visible:true,
         select_permission: undefined,
         selectedRowKeys: [],
-        data: [],
+        dataSource: [],
         nome:"",
         cargo:"",
         email:"",
@@ -225,9 +225,9 @@ class Tabela2 extends React.Component {
 
     }
     excluir(){
-        let dados = this.state.data
+        let dados = this.state.dataSource
         this.state.selectedRowKeys.map(x=> {dados.splice(x, 1)})
-        this.setState({'data':dados})
+        this.setState({'dataSource':dados})
         this.setState({'selectedRowKeys':[]})
     }
     onSelectChange = selectedRowKeys => {
@@ -274,18 +274,17 @@ class Tabela2 extends React.Component {
     }
 
 
-let dados = this.state.data
-dados.push(row)
-this.setState({data:dados})
+    const { dataSource } = this.state;
+this.setState({dataSource: [...dataSource, row]})
 
 console.log(this.state, '----- dados row')
-    
+
 
     }
 
 
     render() {
-        const { loading, selectedRowKeys } = this.state;
+        const { loading, selectedRowKeys, dataSource } = this.state;
         const rowSelection = {
             selectedRowKeys,
             onChange: this.onSelectChange,
@@ -597,10 +596,8 @@ console.log(this.state, '----- dados row')
 
                         <Table 
                          scroll={{ x: 3000 }}
-                        rowSelection={rowSelection} columns={columns} dataSource={this.state.data} />
-
-       
-       {this.state.data}
+                        rowSelection={rowSelection} columns={columns} dataSource={dataSource} 
+                        rowClassName={() => 'editable-row'} />      
         </div>
       );
     }
