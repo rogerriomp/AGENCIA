@@ -102,6 +102,9 @@ class MenuInicial extends React.Component {
                               <Link key={14} to={'/PesquisaVeiculos'}>Pesquisa Veiculos</Link>
                             </Menu.Item>
     
+                            <Menu.Item>
+                              <Link key={14} to={'/PesquisaMapaPI'}>Pesquisa Mapa/PI</Link>
+                            </Menu.Item>
                             
                     </SubMenu>
             

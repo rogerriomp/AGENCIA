@@ -265,6 +265,12 @@ class Tabela2 extends React.Component {
     this.excluir = this.excluir.bind(this)
   }
 
+  CloseModal() {
+    this.setState({ 'visible': false })
+    this.props.callbackModal({ 'editar': false })
+    this.props.callbackModal({ 'novo': false })
+  }
+
   excluir() {
     let dados = this.state.dataSource
     this.state.selectedRows.map(x => {
