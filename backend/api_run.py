@@ -12,6 +12,7 @@ import os
 import insert as insert
 import consultas
 
+
 dados = reqparse.RequestParser()
 # dados.add_argument('usuario', type=str)
 # dados.add_argument('cpf', action='append')
@@ -40,6 +41,9 @@ dados.add_argument('cadastro_anunciante', action='append')
 dados.add_argument('consulta_anunciante', action='append')
 dados.add_argument('cadastro_veiculo', action='append')
 dados.add_argument('consulta_veiculo', action='append')
+dados.add_argument('cadastro_mapa', action='append')
+dados.add_argument('consulta_mapa', action='append')
+dados.add_argument('colocacoes', action='append')
 
 
 
@@ -280,7 +284,21 @@ def consultaVeiculounico():
     print(resultado, '---------------Parceiro unico')
     return resultado,200
 
+#----------Mapa PI---------
+@app.route('/cadastromapapi', methods=['GET', 'POST'])
+def cadastromapapi():
+    post = dados.parse_args()
 
+    consulta = post['cadastro_mapa']
+    c = ast.literal_eval(consulta[0])
+    colocacoes = (c['colocacoes'])
+
+    resultado = insert.insert_mapa(consulta)
+    id_mapa = resultado['id_mapa']
+    cad_colocacao = insert.insert_colocacao(id_mapa,colocacoes)
+
+    print(cad_colocacao, '---------------Mapa cadastrado unico')
+    return cad_colocacao,200
 
 
 # @app.route('/cadastra_funcionario', methods=['GET', 'POST'])
@@ -293,8 +311,7 @@ def consultaVeiculounico():
 
 
 if __name__ == "__main__":
-    # app.run(host="0.0.0.0", debug=True)
+    app.run(host="0.0.0.0", debug=True)
     # app.run(host="192.168.0.103", debug=True)
-    app.run(debug=True)
-
+    #app.run(debug=True)
 

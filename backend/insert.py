@@ -3,6 +3,8 @@ import settings
 import auth
 from random import choice
 import string
+import ast
+import datetime
 
 engine = settings.engine
 cur = engine.connect()
@@ -399,3 +401,102 @@ def UpdateVeiculo(dados):
 # df = pd.read_sql("select * from funcionarios", cur)
 #
 # print(df['senha'])
+
+#=================================================
+
+def insert_mapa(dados):
+    dados = ast.literal_eval(dados[0])
+
+    _dados = (dados['numero_agencia'],
+              datetime.datetime.strptime(dados['dt_emissao'], "%d/%m/%Y").strftime("%Y-%m-%d"),
+              dados['periodo'],
+              dados['ano'],
+              dados['cod_agencia'],
+              dados['cod_veiculo'],
+              dados['servico'],
+              dados['campanha'],
+              dados['produto'],
+              dados['titulo'],
+              datetime.datetime.strptime(dados['dt_vencimento'], "%d/%m/%Y").strftime("%Y-%m-%d"),
+              dados['observacao'],
+              dados['nota_fiscal'],
+              dados['saac'],
+              dados['empenho'],
+              dados['fat_expansao'],
+              dados['fat_veiculo'],
+              dados['mapa_prog'],
+              dados['imprimir'],
+              dados['faturar'],
+              dados['valor_total'],
+              dados['valor_bruto'],
+              dados['comissao_ag'],
+              dados['valor_comissao'],
+              dados['valor_normal'],
+              dados['comissao'],
+              dados['valor_comissao_normal'],
+              dados['valor_liquido'])
+
+    query = """INSERT INTO public.mapa_pi
+(numero_agencia, dt_emissao, periodo, ano, cod_agencia, cod_veiculo, servico, campanha, produto, titulo, dt_vencimento, observacao, nota_fiscal, saac, empenho, fat_expansao, fat_veiculo, mapa_prog, imprimir, faturar, valor_total, valor_bruto, comissao_ag, valor_comissao, valor_normal, comissao, valor_comissao_normal, valor_liquido)
+VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 
+    %s, %s) RETURNING id
+"""
+    result = cur.execute(query, _dados)
+    id = result.fetchone()[0]
+    print("Mapa cadastrado com sucesso: ", id)
+
+    return {'id_mapa': id}
+
+
+#========Mapa PI
+
+def insert_colocacao(id_mapa, dados_colocacao):
+
+    dados_colocacao = dados_colocacao
+
+    for dados in dados_colocacao:
+        _dados = (id_mapa,
+              dados['colocacao'],
+              dados['um'],
+              dados['dois'],
+              dados['tres'],
+              dados['quatro'],
+              dados['cinco'],
+              dados['seis'],
+              dados['sete'],
+              dados['oito'],
+              dados['nove'],
+              dados['dez'],
+              dados['onze'],
+              dados['doze'],
+              dados['treze'],
+              dados['quatorze'],
+              dados['quinze'],
+              dados['dezesseis'],
+              dados['dezessete'],
+              dados['dezoito'],
+              dados['dezenove'],
+              dados['vinte'],
+              dados['vinte_um'],
+              dados['vinte_dois'],
+              dados['vinte_tres'],
+              dados['vinte_quatro'],
+              dados['vinte_cinco'],
+              dados['vinte_seis'],
+              dados['vinte_sete'],
+              dados['vinte_oito'],
+              dados['vinte_nove'],
+              dados['trinta'],
+              dados['trinta_um'],
+              dados['total'])
+
+        print(_dados, 'insert data')
+
+        query = """INSERT INTO public.colocacao
+        (id_mapa_pi, colocacao, um, dois, tres, quatro, cinco, seis, sete, oito, nove, dez, onze, doze, treze, quatorze, quinze, dezesseis, dezessete, dezoito, dezenove, vinte, vinte_um, vinte_dois, vinte_tres, vinte_quatro, vinte_cinco, vinte_seis, vinte_sete, vinte_oito, vinte_nove, trinta, trinta_um, total)
+        VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s) RETURNING id"""
+        result = cur.execute(query, _dados)
+        id = result.fetchone()[0]
+        print("Colocacao cadastrado com sucesso: ", id)
+
+    return {'return':'Colocacao_cadastrada'}
