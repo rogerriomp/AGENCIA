@@ -17,7 +17,7 @@ import PesquisaAgencia from './container/PesquisaAgencia'
 import PesquisaParceiro from './container/PesquisaParceiros'
 import PesquisaAnunciantes from './container/PesquisaAnunciantes'
 import PesquisaVeiculos from './container/PesquisaVeiculos'
-import MapaPi from './container/MapaPi'
+import PesquisaMapaPI from './container/PesquisaMapaPI'
 
 export class Routes extends Component {
     state = {
@@ -54,8 +54,7 @@ export class Routes extends Component {
                     <Route exact path='/PesquisaParceiro' component={PesquisaParceiro}/>
                     <Route exact path='/PesquisaAnunciantes' component={PesquisaAnunciantes}/>
                     <Route exact path='/PesquisaVeiculos' component={PesquisaVeiculos}/>
-                    <Route exact path='/MapaPi' component={MapaPi}/>
-                    
+                    <Route exact path='/PesquisaMapaPI' component={PesquisaMapaPI}/>
                     <Route path="*" component={() => <h1>Page not found</h1>} />
 
                 </Switch>
