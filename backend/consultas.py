@@ -175,3 +175,30 @@ def BuscaVeiculo(nome):
     print(resultado)
 
     return resultado
+
+
+#========================MapaPI============================
+
+def BuscaMapaPiUnico(cod_mapa):
+    df = pd.read_sql("select * from mapa_pi where id="+str(cod_mapa),cur)
+    df_colocacao = pd.read_sql("select * from colocacao where id_mapa_pi="+str(cod_mapa),cur)
+
+    cols_df = list(df)
+    cols_df_co = list(df_colocacao)
+
+    if len(df)==1:
+        d = df.to_dict('index')
+        retorno = {'cadastro_mapa':d[0]}
+    else:
+        retorno = {"msg":"Mapa Não Localizado"}
+
+    if len(cols_df_co)>0:
+        c = df_colocacao.to_dict('index')
+        lista_colocacao = list()
+        for i in c:
+            lista_colocacao.append(c[i])
+
+        retorno['colocacoes']=lista_colocacao
+
+    return retorno
+
