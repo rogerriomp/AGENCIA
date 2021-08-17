@@ -300,7 +300,7 @@ def cadastromapapi():
     print(cad_colocacao, '---------------Mapa cadastrado unico')
     return cad_colocacao,200
 
-@app.route('/consultamapapi', methods=['GET', 'POST'])
+@app.route('/consultamapapi/<string:dt_inicio>/<string:dt_fim>', methods=['GET', 'POST'])
 def consultamapapi():
     post = dados.parse_args()
     return None

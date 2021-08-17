@@ -499,4 +499,4 @@ def insert_colocacao(id_mapa, dados_colocacao):
         id = result.fetchone()[0]
         print("Colocacao cadastrado com sucesso: ", id)
 
-    return {'return':'Colocacao_cadastrada'}
+    return {'return':id}
