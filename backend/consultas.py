@@ -202,3 +202,33 @@ def BuscaMapaPiUnico(cod_mapa):
 
     return retorno
 
+def ConsultaMapas(dt_inicio,dt_fim):
+    df = pd.read_sql("select * from mapa_pi where dt_emissao between '"+dt_inicio+"'and'"+dt_fim+"'",cur)
+    #print(list(df))
+    #print(df.describe())
+    #print(df.head(5))
+
+    d = df.to_dict('index')
+    retorno = list()
+    for mapa in d:
+
+        cadastro_mapa = {}
+        cadastro_mapa['cadastro_mapa'] = d[mapa]
+        df_colocacao = pd.read_sql("select * from colocacao where id_mapa_pi="+str(d[mapa]['id']),cur)
+
+        if len(df_colocacao) > 0:
+            c = df_colocacao.to_dict('index')
+            lista_colocacao = list()
+            for i in c:
+                lista_colocacao.append(c[i])
+            cadastro_mapa['colocacoes']=lista_colocacao
+        retorno.append(cadastro_mapa)
+
+    print(retorno)
+    resultado= {}
+    resultado['resultado']=retorno
+
+
+    return resultado
+
+#ConsultaMapas('2021-01-01','2021-01-01')
