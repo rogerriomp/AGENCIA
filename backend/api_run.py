@@ -318,15 +318,15 @@ def consultatabelapreco_detalhada(id_tb):
     resultado = consultas.ConsultaPrecoVeiculoTb(id_tb)
     return resultado
 
-@app.route('/consultatbpreco/<string:dt_inicio>/<string:dt_fim>', methods=['GET', 'POST'])
-def consultatabelapreco(dt_inicio,dt_fim):
-    resultado = consultas.ConsultaTabelaPreco(dt_inicio,dt_fim)
+@app.route('/consultatbpreco/<string:dt_inicio>/<string:dt_fim>/<string:tp_veiculo>', methods=['GET', 'POST'])
+def consultatabelapreco(dt_inicio,dt_fim,tp_veiculo):
+    resultado = consultas.ConsultaTabelaPreco(dt_inicio,dt_fim,tp_veiculo)
     return resultado
 
 
-@app.route('/cria_tb_preco/<string:dt_inicio>/<string:dt_fim>', methods=['GET', 'POST'])
-def criatabelapreco(dt_inicio,dt_fim):
-    resultado = insert.CriaTabela(dt_inicio,dt_fim)
+@app.route('/cria_tb_preco/<string:dt_inicio>/<string:dt_fim>/<string:tp_veiculo>', methods=['GET', 'POST'])
+def criatabelapreco(dt_inicio,dt_fim,tp_veiculo):
+    resultado = insert.CriaTabela(dt_inicio,dt_fim,tp_veiculo)
     return resultado
 
 

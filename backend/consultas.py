@@ -232,8 +232,8 @@ def ConsultaMapas(dt_inicio,dt_fim):
     return resultado
 
 
-def ConsultaTabelaPreco(dt_ini,dt_fim):
-    query1 = """select * from public.controle_tb_preco where dt_inicio >='""" + dt_ini + "'" + """ and dt_fim <= '""" + dt_fim + "'"
+def ConsultaTabelaPreco(dt_ini,dt_fim, tp_veiculo):
+    query1 = """select * from public.controle_tb_preco where dt_inicio >='""" + dt_ini + "'" + """ and dt_fim <= '""" + dt_fim + "'"+"and tp_veiculo ='"+str(tp_veiculo)+"'"
     df = pd.read_sql(query1,cur)
     d = df.to_dict('index')
     list_tb_preco = list()

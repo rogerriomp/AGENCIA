@@ -502,14 +502,14 @@ def insert_colocacao(id_mapa, dados_colocacao):
     return {'return':id}
 
 #===========Tabela de Preços==========
-def CriaTabela(dt_ini, dt_fim):
-    query1 = """select * from public.controle_tb_preco where dt_inicio >='"""+dt_ini+"'"+ """ and dt_fim <= '"""+dt_fim+"'"
-    df_tb_preco = pd.read_sql("select id, preco_15, preco_30, preco_60 from veiculos v where ativo_tabela_preco = '0'",cur)
+def CriaTabela(dt_ini, dt_fim, tp_veiculo):
+    query1 = """select * from public.controle_tb_preco where dt_inicio >='"""+dt_ini+"'"+ """ and dt_fim <= '"""+dt_fim+"'"+"and tp_veiculo='"+str(tp_veiculo)+"'"
+    df_tb_preco = pd.read_sql("select id, preco_15, preco_30, preco_60 from veiculos v where ativo_tabela_preco = '0' and tp_veiculo='"+str(tp_veiculo)+"'",cur)
     df = pd.read_sql(query1, cur)
     print(df)
     if len(df['inativo']=='False')>0 and len(df_tb_preco)>0:
         print("-----------caiu---------")
-        lista = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K']
+        lista = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K','L','M','N','O','P']
         lista_series = list(df.serie)
         num_tb = list(df.num_tb)
         new_serie = ""
@@ -522,10 +522,10 @@ def CriaTabela(dt_ini, dt_fim):
         else:
             new_serie = 'A'
 
-        _dados = (num_tb[0], dt_ini, dt_fim, new_serie)
+        _dados = (num_tb[0], dt_ini, dt_fim, new_serie, tp_veiculo)
         query = """INSERT INTO public.controle_tb_preco
-        (num_tb,dt_inicio, dt_fim, serie, dt_create, inativo)
-        VALUES(%s,%s, %s, %s, current_timestamp, false) RETURNING id"""
+        (num_tb,dt_inicio, dt_fim, serie, dt_create, inativo,tp_veiculo)
+        VALUES(%s,%s, %s, %s, current_timestamp, false,%s) RETURNING id"""
         cur.execute("""update public.controle_tb_preco set inativo = TRUE  where dt_inicio >='"""+dt_ini+"'"+ """ and dt_fim <= '"""+dt_fim+"'"+" and inativo = false")
         result = cur.execute(query, _dados)
         id_tabela = result.fetchone()[0]
@@ -547,10 +547,10 @@ def CriaTabela(dt_ini, dt_fim):
             max = 0
         max = max + 1
 
-        _dados = (max, dt_ini, dt_fim, "")
+        _dados = (max, dt_ini, dt_fim, "", tp_veiculo)
         query = """INSERT INTO public.controle_tb_preco
-(num_tb,dt_inicio, dt_fim, serie, dt_create, inativo)
-VALUES(%s,%s, %s, %s, current_timestamp, false) RETURNING id"""
+(num_tb,dt_inicio, dt_fim, serie, dt_create, inativo, tp_veiculo)
+VALUES(%s,%s, %s, %s, current_timestamp, false, %s) RETURNING id"""
         result = cur.execute(query, _dados)
         id_tabela = result.fetchone()[0]
 
@@ -566,6 +566,5 @@ VALUES(%s,%s, %s, %s, current_timestamp, false) RETURNING id"""
 
 
     return result
-
 
 
