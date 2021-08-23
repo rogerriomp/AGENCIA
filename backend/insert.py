@@ -500,3 +500,72 @@ def insert_colocacao(id_mapa, dados_colocacao):
         print("Colocacao cadastrado com sucesso: ", id)
 
     return {'return':id}
+
+#===========Tabela de Preços==========
+def CriaTabela(dt_ini, dt_fim):
+    query1 = """select * from public.controle_tb_preco where dt_inicio >='"""+dt_ini+"'"+ """ and dt_fim <= '"""+dt_fim+"'"
+    df_tb_preco = pd.read_sql("select id, preco_15, preco_30, preco_60 from veiculos v where ativo_tabela_preco = '0'",cur)
+    df = pd.read_sql(query1, cur)
+    print(df)
+    if len(df['inativo']=='False')>0 and len(df_tb_preco)>0:
+        print("-----------caiu---------")
+        lista = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K']
+        lista_series = list(df.serie)
+        num_tb = list(df.num_tb)
+        new_serie = ""
+
+        if len(lista_series)>0:
+            for i in lista:
+                if i not in lista_series:
+                    new_serie = i
+                    break
+        else:
+            new_serie = 'A'
+
+        _dados = (num_tb[0], dt_ini, dt_fim, new_serie)
+        query = """INSERT INTO public.controle_tb_preco
+        (num_tb,dt_inicio, dt_fim, serie, dt_create, inativo)
+        VALUES(%s,%s, %s, %s, current_timestamp, false) RETURNING id"""
+        cur.execute("""update public.controle_tb_preco set inativo = TRUE  where dt_inicio >='"""+dt_ini+"'"+ """ and dt_fim <= '"""+dt_fim+"'"+" and inativo = false")
+        result = cur.execute(query, _dados)
+        id_tabela = result.fetchone()[0]
+
+        if len(df_tb_preco) > 0:
+            for idx,i in df_tb_preco.iterrows():
+                _dados = (str(i['id']), id_tabela, i.preco_15, i.preco_30, i.preco_60)
+                cur.execute(
+                    """INSERT INTO public.preco (id_veiculo, id_tabela, "15", "30", "60") VALUES(%s,%s,%s,%s,%s)""", _dados)
+
+        result = {'msg': 'tabela criada com sucesso: ' + str(num_tb[0])+'/'+new_serie}
+
+
+    elif (len(df)==0) and (len(df_tb_preco)>0):
+        print("---------não caiu---------")
+        consulta = cur.execute("select max(num_tb) from public.controle_tb_preco")
+        max = consulta.fetchone()[0]
+        if max == None:
+            max = 0
+        max = max + 1
+
+        _dados = (max, dt_ini, dt_fim, "")
+        query = """INSERT INTO public.controle_tb_preco
+(num_tb,dt_inicio, dt_fim, serie, dt_create, inativo)
+VALUES(%s,%s, %s, %s, current_timestamp, false) RETURNING id"""
+        result = cur.execute(query, _dados)
+        id_tabela = result.fetchone()[0]
+
+
+        if len(df_tb_preco)>0:
+            for idx,i in df_tb_preco.iterrows():
+                cur.execute("""INSERT INTO public.preco (id_veiculo, id_tabela, "15", "30", "60") VALUES('{0}', '{1}', '{2}', '{3}', '{4}')""".format(str(i['id']), id_tabela, i.preco_15, i.preco_30, i.preco_60))
+
+        result = {'msg':'tabela criada com sucesso: ' + str(max)}
+
+    elif len(df_tb_preco)==0:
+        result = {'msg':'A tabela não pode ser criada pois não existem dados de preços para criação'}
+
+
+    return result
+
+
+

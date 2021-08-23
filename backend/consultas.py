@@ -231,4 +231,32 @@ def ConsultaMapas(dt_inicio,dt_fim):
 
     return resultado
 
-#ConsultaMapas('2021-01-01','2021-01-01')
+
+def ConsultaTabelaPreco(dt_ini,dt_fim):
+    query1 = """select * from public.controle_tb_preco where dt_inicio >='""" + dt_ini + "'" + """ and dt_fim <= '""" + dt_fim + "'"
+    df = pd.read_sql(query1,cur)
+    d = df.to_dict('index')
+    list_tb_preco = list()
+    for i in d:
+        list_tb_preco.append(d[i])
+    resultado = {'resultado':list_tb_preco}
+
+    return resultado
+
+def ConsultaPrecoVeiculoTb(id_tb):
+    df = pd.read_sql("""select preco.id, preco.id_tabela, ctp.num_tb, ctp.serie ,preco."15", preco."30", preco."60", v.fantasia ,
+v.id as id_veiculo, ctp.inativo as tb_inativa
+from preco
+join controle_tb_preco ctp on ctp.id = preco.id_tabela 
+join veiculos v on v.id = preco.id_veiculo 
+where preco.id_tabela ="""+str(id_tb),
+                              cur)
+    d = df.to_dict('index')
+
+    lista_preco_veiculos = list()
+    for i in d:
+        lista_preco_veiculos.append(d[i])
+
+    resultado = {'resultado':lista_preco_veiculos}
+
+    return resultado

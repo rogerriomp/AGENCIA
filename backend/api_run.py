@@ -311,6 +311,25 @@ def retornamapapi(cod_mapapi):
 
     return resultado
 
+#-------Tabela de precos-------
+
+@app.route('/consultatbpreco_detalhada/<string:id_tb>', methods=['GET', 'POST'])
+def consultatabelapreco_detalhada(id_tb):
+    resultado = consultas.ConsultaPrecoVeiculoTb(id_tb)
+    return resultado
+
+@app.route('/consultatbpreco/<string:dt_inicio>/<string:dt_fim>', methods=['GET', 'POST'])
+def consultatabelapreco(dt_inicio,dt_fim):
+    resultado = consultas.ConsultaTabelaPreco(dt_inicio,dt_fim)
+    return resultado
+
+
+@app.route('/cria_tb_preco/<string:dt_inicio>/<string:dt_fim>', methods=['GET', 'POST'])
+def criatabelapreco(dt_inicio,dt_fim):
+    resultado = insert.CriaTabela(dt_inicio,dt_fim)
+    return resultado
+
+
 
 # @app.route('/cadastra_funcionario', methods=['GET', 'POST'])
 # def consulta_cpf():
