@@ -219,6 +219,7 @@ class Tabela2 extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      cod_mapa_pi: null,
       visible: true,
       select_permission: undefined,
       selectedRows: [],
@@ -271,6 +272,70 @@ class Tabela2 extends React.Component {
     this.props.callbackModal({ 'novo': false })
   }
 
+  cadastrar() {
+    let dados_cadastro = {
+      'id': this.state.cod_mapa_pi,
+      'numero_agencia': this.state.numero_agencia,
+      'dt_emissao': moment(this.state.dt_emissao).format(dateFormat),
+      'periodo': this.state.periodo,
+      'ano' : moment(this.state.year).format(yearFormat),
+      'cod_agencia': this.state.agencia,
+      'cod_anunciante': this.state.anunciante,
+      'cod_veiculo': this.state.veiculo,
+      'servico': this.state.servico,
+      'colocacoes': this.state.dataSource,
+      'campanha': this.state.campanha,
+      'produto': this.state.produto,
+      'titulo' : this.state.titulo,
+      'dt_vencimento': moment(this.state.dt_vencimento).format(dateFormat),
+      'observacao' : this.state.observacao,
+      'nota_fiscal': this.state.nota_fiscal,
+      'saac': this.state.saac,
+      'empenho': this.state.empenho,
+      'fat_expansao': this.state.faturamento_expansao,
+      'fat_veiculo': this.state.faturamento_veiculo,
+      'mapa_prog': this.state.mapa_de_programacao,
+      'imprimir': this.state.imprimir,
+      'faturar' : this.state.faturar,
+      'valor_total' : this.state.valor_total,
+      'valor_bruto' : this.state.valor_bruto,
+      'comissao_ag' : this.state.comissao,
+      'valor_comissao' : this.state.valor_comissao,
+      'valor_normal' : this.state.valor_normal,
+      'comissao' : this.state.comissao_normal,
+      'valor_comissao_normal' : this.state.valor_comissao_normal,
+      'valor_liquido' : this.state.valor_liquido,
+    }
+    
+    console.log(JSON.stringify({
+      'cadastro_mapa': dados_cadastro,
+    })) 
+
+    fetch('/api/cadastromapapi', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        'cadastro_mapa': dados_cadastro,
+      })
+    })
+      .then((r) => r.json())
+      .then((json) => {
+        if ('id_mapa_pi' in json) {
+          this.setState({ 'cod_mapa_pi': json.id_mapa_pi })
+          alert("Mapa cadastrado com sucesso!")
+          this.props.callbackModal({ 'novo': false })
+        } if ('msg' in json) {
+          alert(json.msg)
+          this.props.callbackModal({ 'editar': false })
+        } else {
+          alert(json)
+        }
+      })
+  }
+
   excluir() {
     let dados = this.state.dataSource
     this.state.selectedRows.map(x => {
@@ -292,7 +357,7 @@ class Tabela2 extends React.Component {
     for (let i = 1; i < this.state.valores.length; i++) {
       total += this.state.valores[i] === undefined ? 0 : this.state.valores[i];
     }
-    this.setState({ total: [total] })
+    this.setState({ total: total })
   }
 
   onChangeSetValorBruto(value) {
@@ -416,8 +481,8 @@ class Tabela2 extends React.Component {
           this.setState({ agencias: dados })
         })
     };
-    const onSelectAgencia = (value) => {
-      this.setState({ agencia: value })
+    const onSelectAgencia = (value, option) => {
+      this.setState({ agencia: option.key })
     };
 
     const handleSearchAnunciante = (value) => {
@@ -493,8 +558,8 @@ class Tabela2 extends React.Component {
           this.setState({ veiculos: dados })
         })
     };
-    const onSelectVeiculo = (value) => {
-      this.setState({ veiculo: value })
+    const onSelectVeiculo = (value, option) => {
+      this.setState({ veiculo: option.key })
     };
     return (
       <div>
@@ -506,7 +571,7 @@ class Tabela2 extends React.Component {
             <Button key="back" onClick={(e) => this.CloseModal()}>
               Cancelar
             </Button>,
-            <Button key="Cadastrar" type="primary" onClick={this.cadastrar}>
+            <Button key="Cadastrar" type="primary" onClick={(e) =>this.cadastrar()}>
               Cadastrar
             </Button>,
           ]}>

@@ -4,47 +4,72 @@ import CadMapaPi from './Cadastro_MapaPI'
 import moment from 'moment';
 
 
-const yearFormat = 'YYYY';
+const dateFormat = 'DD/MM/YYYY';
+const dateFormatEn = 'YYYY-MM-DD';
 const { Option } = Select;
 
 const columns = [
-
+  {
+    title: 'Número da Agência',
+    dataIndex: ['cadastro_mapa','numero_agencia'],
+  },
+  {
+    title: 'Emissão',
+    dataIndex: ['cadastro_mapa','dt_emissao'],
+    render: ((date) => getFullDate(date)),
+  },
   {
     title: 'Período',
-    dataIndex: 'periodo',
-
+    dataIndex: ['cadastro_mapa','periodo'],
+    render: ((date) => getPeriodo(date)),
   },
   {
     title: 'Ano',
-    dataIndex: 'ano',
-
+    dataIndex: ['cadastro_mapa','ano'],
   },
-
 ];
 
-
-const data =  [
-  {
-    key: 1, 
-    periodo: "Janeiro", 
-    periodo_cod: 1,
-    ano: 2020
-  }, 
-  {
-    key: 2, 
-    periodo: "Janeiro", 
-    periodo_cod: 1,
-    ano: 2021
-  }, 
-  {
-    key: 3, 
-    periodo: "Fevereiro", 
-    periodo_cod: 2,
-    ano: 2021
-  }, 
-]
-
-
+function getPeriodo(e){
+  if (e === "1") {
+    return "Janeiro"
+  }
+  if (e === "2") {
+    return "Fevereiro"
+  }
+  if (e === "3") {
+    return "Março"
+  }
+  if (e === "4") {
+    return "Abril"
+  }
+  if (e === "5") {
+    return "Maio"
+  }
+  if (e === "6") {
+    return "Junho"
+  }
+  if (e === "7") {
+    return "Julho"
+  }
+  if (e === "8") {
+    return "Agosto"
+  }
+  if (e === "9") {
+    return "Setembro"
+  }
+  if (e === "10") {
+    return "Outubro"
+  }
+  if (e === "11") {
+    return "Novembro"
+  }
+  if (e === "12") {
+    return "Dezembro"
+  }
+}
+function getFullDate(e){
+  return moment(e).format(dateFormat)
+}
 class PesquisaMapaPI extends React.Component {
   constructor(props) {
     super(props)
@@ -58,26 +83,19 @@ class PesquisaMapaPI extends React.Component {
       novo: false,
       periodo: 0,
       data: [],
-      year: new Date(),
+      dt_inicio: new Date(),
+      dt_fim: new Date(),
 
     }
     this.Update = this.Update.bind(this)
     this.start = this.start.bind(this)
     this.onSelectChange = this.onSelectChange.bind(this)
-    this.convertData = this.convertData.bind(this)
     this.novo = this.novo.bind(this)
     this.editar = this.editar.bind(this)
-    // this.Consulta = this.Consulta.bind(this)
 
   }
   Update(e) {
     this.setState(e)
-  }
-  convertData(str) {
-    var date = new Date(str),
-      mnth = ("0" + (date.getMonth() + 1)).slice(-2),
-      day = ("0" + date.getDate()).slice(-2);
-    return [day, mnth, date.getFullYear()].join("/");
   }
   start = () => {
     this.setState({ loading: true });
@@ -120,23 +138,40 @@ class PesquisaMapaPI extends React.Component {
 
   Consulta() {
     let newData = []
-    let year = this.state.year
-    if (year != ""){
-      year = moment(this.state.year, yearFormat).year();
+    let dt_inicio = this.state.dt_inicio
+    let dt_fim = this.state.dt_fim
+    let momentInicio, momentFim
+
+    if (dt_inicio != ""){
+      momentInicio = moment(this.state.dt_inicio, dateFormat)
+      dt_inicio = momentInicio.format(dateFormatEn);
+    }else{
+      alert("Para efetuar a busca é necessário selecionar uma data de início")
     }
-    console.log(year)
-    for (let i = 0; i < data.length; i++) {
-      if (this.state.periodo != 0 && this.state.year != "" && data[i].periodo_cod == this.state.periodo && data[i].ano === year) {
-        newData.push(data[i])
-      }else      if (this.state.periodo != 0 && this.state.year == "" && data[i].periodo_cod == this.state.periodo) {
-        newData.push(data[i])
-      }else      if (this.state.periodo == 0 && this.state.year != "" && data[i].ano === year) {
-        newData.push(data[i])
-      }else if (this.state.periodo == 0 && this.state.year == ""){
-        newData.push(data[i])
+    if (dt_fim != ""){
+      momentFim = moment(this.state.dt_fim, dateFormat)
+      dt_fim = momentFim.format(dateFormatEn);
+    }else{
+      alert("Para efetuar a busca é necessário selecionar uma data final")
+    }
+    if (momentInicio.isAfter(momentFim)){
+      alert("Para efetuar a busca é necessário que a data inicial seja anterior a data final")
+    }
+    
+    let url = '/api/consultamapapi/'+dt_inicio+"/"+dt_fim
+
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
       }
-    }
-    console.log(newData)
+    })
+      .then((r) => r.json())
+      .then((json) => {
+        this.setState({'data':json.resultado})
+        console.log(this.state.data)
+      })
     this.setState({ 'data': newData })
   }
 
@@ -179,37 +214,16 @@ class PesquisaMapaPI extends React.Component {
           <table>
                 <tr>
                   <th>
-                    Período: <br />
-                    <Select
-                      showSearch
-                      style={{ width: 220 }}
-                      placeholder="Período"
-                      optionFilterProp="children"
-                      filterOption={(input, option) =>
-                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                      }
-                      onChange={(e) => { this.setState({ "periodo": e }) }}
-                    >
-                      <Option value="0">Todos</Option>
-                      <Option value="1">Janeiro</Option>
-                      <Option value="2">Fevereiro</Option>
-                      <Option value="3">Março</Option>
-                      <Option value="4">Abril</Option>
-                      <Option value="5">Maio</Option>
-                      <Option value="6">Junho</Option>
-                      <Option value="7">Julho</Option>
-                      <Option value="8">Agosto</Option>
-                      <Option value="9">Setembro</Option>
-                      <Option value="10">Outubro</Option>
-                      <Option value="11">Novembro</Option>
-                      <Option value="12">Dezembro</Option>
-                    </Select>
+                    Data de Emissão de: <br />
+                    <DatePicker
+                      defaultValue={moment(this.state.dt_inicio, dateFormat)} format={dateFormat} picker="dt_inicio" 
+                      onChange={(e) => { (e != null) ?this.setState({ "dt_inicio": moment(e) }) :this.setState({ "dt_inicio": "" })}} />
                   </th>
                   <th>
-                    Ano: <br />
+                    Até: <br />
                     <DatePicker
-                      defaultValue={moment(this.state.year, yearFormat)} format={yearFormat} picker="year" 
-                      onChange={(e) => { (e != null) ?this.setState({ "year": moment(e).year() }) :this.setState({ "year": "" })}} />
+                      defaultValue={moment(this.state.dt_fim, dateFormat)} format={dateFormat} picker="dt_fim" 
+                      onChange={(e) => { (e != null) ?this.setState({ "dt_fim": moment(e) }) :this.setState({ "dt_fim": "" })}} />
                   </th>
                 </tr>
           </table>
@@ -229,7 +243,7 @@ class PesquisaMapaPI extends React.Component {
         }
 
         {this.state.editar === true &&
-          <CadMapaPi funcionario={this.state.selectedRowKeys[0]} callbackModal={(e) => { this.setState(e) }} />
+          <CadMapaPi mapapi={this.state.selectedRowKeys[0]} callbackModal={(e) => { this.setState(e) }} />
         }
 
       </div>
