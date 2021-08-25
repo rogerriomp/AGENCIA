@@ -35,8 +35,12 @@ def gerasenha(id_usr):
 #==========================Funcionários==================================
 def insert_funcionario(dados_funcionario):
     #print(dados_funcionario)
+    df = pd.read_sql("""select * from funcionarios where cpf ='"""+str(dados_funcionario['cpf'])+"'")
 
-    dados = (dados_funcionario['nome'], dados_funcionario['cpf'], dados_funcionario['rg'], dados_funcionario['tp_acesso'],
+    if len(df)>0:
+        retorna = {'msg':"O cadastro não pode ser realizado, pois este CPF já encontra-se cadastrado na base"}
+    else:
+        dados = (dados_funcionario['nome'], dados_funcionario['cpf'], dados_funcionario['rg'], dados_funcionario['tp_acesso'],
              dados_funcionario['status'], 1, dados_funcionario['email'],
              dados_funcionario['telefone'], dados_funcionario['obs'], dados_funcionario['funcao'], dados_funcionario['ctps'],
              dados_funcionario['reservista'],dados_funcionario['titulo'], dados_funcionario['dt_nascimento'],
@@ -45,17 +49,18 @@ def insert_funcionario(dados_funcionario):
              dados_funcionario['bairro'], dados_funcionario['complemento'], dados_funcionario['banco'],
              dados_funcionario['agencia'],dados_funcionario['conta'], dados_funcionario['tp_conta']
              )
-    #print(len(dados), 'Tamanho do vetor')
-    query = """INSERT INTO public.funcionarios (nome, cpf, rg, tp_acesso, status, primeiro_acesso, email, 
-    telefone, obs, funcao, ctps, reservista, titulo, dt_nascimento, dt_admissao, dt_desligamento, genero, cep, 
-    cod_cidade, estado, rua, bairro, complemento, banco, agencia, conta, tp_conta, dt_create) 
-    VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 
-    %s, current_timestamp) RETURNING id"""
+        #print(len(dados), 'Tamanho do vetor')
+        query = """INSERT INTO public.funcionarios (nome, cpf, rg, tp_acesso, status, primeiro_acesso, email, 
+        telefone, obs, funcao, ctps, reservista, titulo, dt_nascimento, dt_admissao, dt_desligamento, genero, cep, 
+        cod_cidade, estado, rua, bairro, complemento, banco, agencia, conta, tp_conta, dt_create) 
+        VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 
+        %s, current_timestamp) RETURNING id"""
 
-    result = cur.execute(query, dados)
-    id = result.fetchone()[0]
-    print("Funcionario cadastrado com sucesso: ", id)
-    return {'id_funcionario': id}
+        result = cur.execute(query, dados)
+        id = result.fetchone()[0]
+        print("Funcionario cadastrado com sucesso: ", id)
+        retorna = {'id_funcionario': id}
+    return retorna
 
 
 
@@ -567,4 +572,23 @@ VALUES(%s,%s, %s, %s, current_timestamp, false, %s) RETURNING id"""
 
     return result
 
+#=======Alteração de senha=========
+
+def Alterasenha(usuario, senha, nova_senha):
+    valida_usr =  auth.ValidaUsuario(usuario, senha)
+    valida_usr = ast.literal_eval(valida_usr)
+
+    if valida_usr.get('token'):
+
+        q = "update funcionarios set senha='"+nova_senha+"' "+"where cpf='"+usuario+"'"
+        try:
+            cur.execute(q)
+            resultado = {'msg': "senha alterada com sucesso"}
+        except:
+            resultado = {'err': "Falha na alteração de senha"}
+
+    else:
+        resultado = {'msg': "Usuário ou senha incorreta!"}
+
+    return resultado
 

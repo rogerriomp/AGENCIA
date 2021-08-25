@@ -44,13 +44,13 @@ def BuscaFuncionarioUnico(cod_funcionario):
     d = df.T.to_dict()[0]
 
     if d['dt_nascimento'] != None:
-        d['dt_nascimento'] = d['dt_nascimento'].strftime("%d/%m/%Y")
+        d['dt_nascimento'] = d['dt_nascimento']#.strftime("%d/%m/%Y")
 
     if d['dt_admissao'] != None:
-        d['dt_admissao'] = d['dt_admissao'].strftime("%d/%m/%Y")
+        d['dt_admissao'] = d['dt_admissao']#.strftime("%d/%m/%Y")
 
     if d['dt_desligamento'] != None:
-        d['dt_desligamento'] = d['dt_desligamento'].strftime("%d/%m/%Y")
+        d['dt_desligamento'] = d['dt_desligamento']#.strftime("%d/%m/%Y")
 
     resultado = {'resultado': d}
     return resultado
@@ -63,7 +63,7 @@ def BuscaAgenciaUnica(cod_agencia):
     d = df.T.to_dict()[0]
 
     if d['dt_create'] != None:
-        d['dt_create'] = d['dt_create'].strftime("%d/%m/%Y")
+        d['dt_create'] = d['dt_create']#.strftime("%d/%m/%Y")
 
 
     resultado = {'resultado': d}
@@ -93,7 +93,7 @@ def BuscaParceiroUnico(cod_agencia):
     d = df.T.to_dict()[0]
 
     if d['dt_create'] != None:
-        d['dt_create'] = d['dt_create'].strftime("%d/%m/%Y")
+        d['dt_create'] = d['dt_create']#.strftime("%d/%m/%Y")
 
 
     resultado = {'resultado': d}
@@ -122,7 +122,7 @@ def BuscaAnuncianteUnico(cod_anunciante):
     d = df.T.to_dict()[0]
 
     if d['dt_create'] != None:
-        d['dt_create'] = d['dt_create'].strftime("%d/%m/%Y")
+        d['dt_create'] = d['dt_create']#.strftime("%d/%m/%Y")
 
 
     resultado = {'resultado': d}
@@ -152,7 +152,7 @@ def BuscaVeiculoUnico(cod_anunciante):
     d = df.T.to_dict()[0]
 
     if d['dt_create'] != None:
-        d['dt_create'] = d['dt_create'].strftime("%d/%m/%Y")
+        d['dt_create'] = d['dt_create']#.strftime("%d/%m/%Y")
 
 
     resultado = {'resultado': d}

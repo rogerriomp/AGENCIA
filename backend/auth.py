@@ -24,25 +24,18 @@ def Permisoes(usr):
 
     return resultado
 
-
 def Geratoken(user_id):
-    secret = 'minha_super_chave_imprevisivel'
-
-    payload = {
-      'uid': user_id,
-      'exp': int(time()) + 36000#3600 # queremos que o token seja valido por uma hora
-    }
-
-    meu_token_assinado = jwt.encode(payload, secret, algorithm='HS256').decode('utf-8')
+    secret = 'xablau'
+    meu_token_assinado = jwt.encode({"usuario": user_id, 'exp':int(time()) + 36000}, secret, algorithm="HS256")
     return meu_token_assinado
 
 
 def ValidaToken(token):
-    secret = 'minha_super_chave_imprevisivel'
+    secret = 'xablau'
     meu_jwt = token
 
     try:
-        informacoes = jwt.decode(meu_jwt, secret, algorithm='HS256')
+        informacoes = jwt.decode(meu_jwt, secret, algorithms="HS256")
     except jwt.ExpiredSignatureError:
         informacoes = 'Seu token esta expirado!'
     except jwt.DecodeError:
@@ -54,20 +47,21 @@ def ValidaToken(token):
     return json.dumps({'msg':informacoes})
 
 def ValidaUsuario(usr, password):
-    q = """select u.username, p.cpf, u."password" 
-from users u 
-join pessoas p on p.id = u.id_pessoa 
-where (u.username = """+"'"+usr+"'"+""" or LTRIM(translate(p.cpf, translate(p.cpf, '1234567890', '') , '')) = """+"'"+usr+"'"+""")"""
+    q = """select nome, cpf, senha, tp_acesso, status, primeiro_acesso, funcao, email 
+from funcionarios f 
+where status = 1 
+and cpf ='"""+str(usr)+"'"
     df = pd.read_sql(q,cur)
     if len(df)>0:
         for i in df.itertuples():
-            usuario = i[1]
+            nome = i[1]
             cpf = i[2]
             senha = i[3]
+            permissoes = i[4]
         if senha == password:
-            token = Geratoken(usuario)
-            permissoes = Permisoes(usuario)
-            resultado = {'usuario': usuario, 'cpf': cpf, 'token': token, 'permissoes': permissoes}
+            token = Geratoken(cpf)
+            permissoes = permissoes
+            resultado = {'nome': nome, 'cpf': cpf, 'token': token, 'permissoes': permissoes}
         else:
             resultado = {'msg': 'Usuário ou senha incorretos'}
     else:
@@ -76,6 +70,9 @@ where (u.username = """+"'"+usr+"'"+""" or LTRIM(translate(p.cpf, translate(p.cp
     return resultado
 
 
+
+
+#print(ValidaUsuario('32268484882','ljzqpfqa'))
 
 
 

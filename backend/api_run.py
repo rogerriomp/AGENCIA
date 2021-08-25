@@ -11,7 +11,9 @@ import ast
 import os
 import insert as insert
 import consultas
-
+from flask import send_file, current_app
+import mountPDF
+import auth
 
 dados = reqparse.RequestParser()
 # dados.add_argument('usuario', type=str)
@@ -44,6 +46,11 @@ dados.add_argument('consulta_veiculo', action='append')
 dados.add_argument('cadastro_mapa', action='append')
 dados.add_argument('consulta_mapa', action='append')
 dados.add_argument('colocacoes', action='append')
+dados.add_argument('usuario', action='append')
+dados.add_argument('senha', action='append')
+dados.add_argument('token', action='append')
+dados.add_argument('nova_senha', action='append')
+
 
 
 
@@ -330,6 +337,45 @@ def criatabelapreco(dt_inicio,dt_fim,tp_veiculo):
     return resultado
 
 
+#Envia tabela de preço pdf
+
+@app.route('/show/tb_preco-pdf/<string:id_empresa>/<string:id_tb>')
+def show_static_pdf(id_empresa, id_tb):
+    file_name = mountPDF.CriaPdf(id_empresa, id_tb)
+    return send_file(file_name, mimetype='application/x-pdf', attachment_filename='Tabela_preco.pdf',
+              as_attachment=True)
+
+#Rotas de autenticação e validação
+@app.route('/auth', methods=['GET', 'POST'])
+def autenticacao():
+    post = dados.parse_args()
+    usuario = post['usuario'][0]
+    senha = post['senha'][0]
+
+    resultado = auth.ValidaUsuario(usuario,senha)
+
+    print(resultado, '---------------autenticado')
+    return resultado,200
+
+@app.route('/valida', methods=['GET', 'POST'])
+def valida_autenticacao():
+    post = dados.parse_args()
+    token = post['token'][0]
+    resultado = auth.ValidaToken(token)
+
+    print(resultado, '---------------validação de token')
+    return resultado,200
+
+@app.route('/alterarsenha', methods=['GET', 'POST'])
+def alterarsenha():
+    post = dados.parse_args()
+    usuario = post['usuario'][0]
+    senha = post['senha'][0]
+    nova_senha = post['nova_senha'][0]
+
+    resultado = insert.Alterasenha(usuario,senha,nova_senha)
+
+    return resultado
 
 # @app.route('/cadastra_funcionario', methods=['GET', 'POST'])
 # def consulta_cpf():
