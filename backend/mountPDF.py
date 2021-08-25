@@ -6,6 +6,8 @@ import pandas as pd
 import settings
 import codecs
 import uuid
+import os
+import fitz
 
 import auth
 from random import choice
@@ -31,7 +33,7 @@ options = {
 def CreateCapa(id_empresa,id_tb):
     file = codecs.open("resources/templates/capa.html", "r", "utf-8").read()
     df_parametros = pd.read_sql("select * from parametros where inativo = False and id = "+str(id_empresa),cur)
-    df_controle_tb = pd.read_sql("select * from controle_tb_preco where inativo = False and id="+str(id_tb),cur)
+    df_controle_tb = pd.read_sql("select * from controle_tb_preco where id="+str(id_tb),cur)
 
 
     if(len(df_parametros)>0 and len(df_controle_tb)>0):
@@ -91,44 +93,120 @@ def CreateCapa(id_empresa,id_tb):
 
     name = uuid.uuid4()
     print(name)
-    Html_file = open("resources/temp/"+str(name)+".html", "w")
+    dir = 'resources/temp/'+str(name)
+    os.mkdir(dir)
+
+    Html_file = open(dir+'/'+str(name)+".html", "w")
     Html_file.write(new_file)
     Html_file.close()
 
-    return "resources/temp/"+str(name)+".html"
+    retorno = (dir+"/"+str(name)+".html", dir)
+    return retorno
 
 # CreateCapa(1, 25)
 # 'resources/templates/capa.html'
 def CriaPdf(id_empresa,id_tb):
     html_template_file = CreateCapa(id_empresa,id_tb)
-    pdfkit.from_file(html_template_file, html_template_file.replace('html','pdf'), options=options)
-    return html_template_file.replace('html','pdf')
+    pdfkit.from_file(html_template_file[0], html_template_file[1]+"/1.pdf", options=options)
+    return html_template_file
 
-def CriaTabelaPrecoPdf(tb_preco):
+def CarregaTbPreco(tb_preco):
+    df = pd.read_sql("""select p.id_tabela, p.id_veiculo, v.fantasia, p."15", p."30", p."60", e.nome as estado , c.nome as cidade
+from preco p 
+join veiculos v on v.id = p.id_veiculo 
+join estados e on e.id = v.estado
+join cidades c on c.id = v.cod_cidade 
+where id_tabela ="""+str(tb_preco),cur)
 
-    return None
+    if len(df)>0:
+        string_tag_list = list()
+        list_uf = list(df.estado)
+        for uf in list_uf:
+            tag_temp = list()
+            tamanho = len(df[df.estado==uf])
+            for idx,linha in df[df.estado==uf].iterrows():
+                if (idx % 2) == 0:
+                    bg = """<tr>"""
+                else:
+                    bg = """<tr style="background:#d9e2f3">"""
 
-string = list()
-for idx,i in enumerate(range(0,100)):
-    if (idx % 2) == 0:
-        bg = """<tr>"""
-    else:
-        bg = """<tr style="background:#d9e2f3">"""
+                t = bg + "<th>{cidade}</th><th>{veiculo}</th><th>{trinta}</th><th>{sessenta}</th><th>{quinze}</th></tr>".format(cidade=linha.cidade,veiculo=linha.fantasia, trinta=linha["30"],sessenta=linha["60"],quinze=linha["15"])
+                tag_temp.append(t)
 
-    t = bg+"<th>Cidade Teste"+"</th>"+"<th>Radio Globo</th>"+"<th>"+str(i)+"</th>"+"<th>"+str(i)+"</th>"+"<th>" + str(i) + "</th>" +"</tr>"
-    string = string+t
-
+            first = tag_temp[0]
+            tag_temp[0] = first.replace("<tr>",
+                                     """<tr><th style='text-align:center;vertical-align:middle;writing-mode: tb-rl;transform: rotate(-180deg);' ROWSPAN="{tamanho}">{cidade}</th>""".format(
+                                         tamanho=tamanho, cidade=uf))
+            string_tag_list = string_tag_list + tag_temp
 
 
-file = codecs.open("resources/templates/tabela.html", "r", "utf-8").read()
-new_file = file.format(dados_tabela=string,dados_tabela2=string)
-Html_file = open("teste_tabela.html", "w")
-Html_file.write(new_file)
-Html_file.close()
-
-pdfkit.from_file('teste_tabela.html', 'micro.pdf', options=options)
+    return string_tag_list
 
 
+
+def GeraTabelahtml(id_tabela):
+    capa_dir = CriaPdf(1,id_tabela)
+    string_html = CarregaTbPreco(id_tabela)
+    seq_pgs = 2
+    if len(string_html) > 42:
+        None
+    elif len(string_html) <=42:
+        file = codecs.open("resources/templates/tabela.html", "r", "utf-8").read()
+        new_file = file.format(dados_tabela=''.join(string_html))
+        Html_file = open(capa_dir[1]+"/"+str(seq_pgs)+".html", "w")
+        Html_file.write(new_file)
+        Html_file.close()
+        pdfkit.from_file(capa_dir[1]+"/"+str(seq_pgs)+".html", capa_dir[1]+"/"+str(seq_pgs)+".pdf", options=options)
+
+
+        all_files = []
+        for dirpath, dirnames, filenames in os.walk(capa_dir[1]):
+            for filename in [f for f in filenames if f.endswith(".pdf")]:
+                all_files.append(os.path.join(dirpath, filename))
+
+    report = fitz.open()
+
+    for pdf in all_files:
+        with fitz.open(pdf) as mfile:
+            report.insertPDF(mfile)
+
+    report.save(capa_dir[1]+"/report.pdf")
+
+    return capa_dir[1]+"/report.pdf"
+
+print(GeraTabelahtml(25))
+
+
+
+
+
+# string = list()
+#
+# for cit in ['Florianópolis','Porto Alegre']:
+#     ttemp = list()
+#     for idx,i in enumerate(range(0,50)):
+#         if (idx % 2) == 0:
+#             bg = """<tr>"""
+#         else:
+#             bg = """<tr style="background:#d9e2f3">"""
+#
+#         t = bg+"<th>Cidade Teste"+"</th>"+"<th>Radio Globo</th>"+"<th>"+str(i)+"</th>"+"<th>"+str(i)+"</th>"+"<th>" + str(i) + "</th>" +"</tr>"
+#         ttemp.append(t)
+#
+#     first = ttemp[0]
+#     ttemp[0] = first.replace("<tr>","""<tr><th style='text-align:center;vertical-align:middle;writing-mode: tb-rl;transform: rotate(-180deg);' ROWSPAN="{tamanho}">{cidade}</th>""".format(tamanho=50,cidade=cit))
+#     string = string + ttemp
+#
+# string = ''.join(string)
+#
+#
+#
+#
+
+
+
+
+#----------------------------------------------------------------------------------------------------------------------
 
 # Funcionando---------Merge PDF
 # import fitz
@@ -140,3 +218,5 @@ pdfkit.from_file('teste_tabela.html', 'micro.pdf', options=options)
 #         result.insertPDF(mfile)
 #
 # result.save("result.pdf")
+
+
