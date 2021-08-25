@@ -1,5 +1,6 @@
 
 import pdfkit
+from PyPDF2 import PdfFileMerger, PdfFileReader
 from datetime import datetime
 import pandas as pd
 import settings
@@ -96,14 +97,46 @@ def CreateCapa(id_empresa,id_tb):
 
     return "resources/temp/"+str(name)+".html"
 
-
-
-
-
-
 # CreateCapa(1, 25)
 # 'resources/templates/capa.html'
 def CriaPdf(id_empresa,id_tb):
     html_template_file = CreateCapa(id_empresa,id_tb)
     pdfkit.from_file(html_template_file, html_template_file.replace('html','pdf'), options=options)
     return html_template_file.replace('html','pdf')
+
+def CriaTabelaPrecoPdf(tb_preco):
+
+    return None
+
+string = list()
+for idx,i in enumerate(range(0,100)):
+    if (idx % 2) == 0:
+        bg = """<tr>"""
+    else:
+        bg = """<tr style="background:#d9e2f3">"""
+
+    t = bg+"<th>Cidade Teste"+"</th>"+"<th>Radio Globo</th>"+"<th>"+str(i)+"</th>"+"<th>"+str(i)+"</th>"+"<th>" + str(i) + "</th>" +"</tr>"
+    string = string+t
+
+
+
+file = codecs.open("resources/templates/tabela.html", "r", "utf-8").read()
+new_file = file.format(dados_tabela=string,dados_tabela2=string)
+Html_file = open("teste_tabela.html", "w")
+Html_file.write(new_file)
+Html_file.close()
+
+pdfkit.from_file('teste_tabela.html', 'micro.pdf', options=options)
+
+
+
+# Funcionando---------Merge PDF
+# import fitz
+#
+# result = fitz.open()
+#
+# for pdf in ['resources/temp/ea0b2eac-caf2-4cc7-94d4-dd1737bdc84a.pdf','micro.pdf']:
+#     with fitz.open(pdf) as mfile:
+#         result.insertPDF(mfile)
+#
+# result.save("result.pdf")
