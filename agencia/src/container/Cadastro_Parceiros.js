@@ -49,6 +49,7 @@ class CadParceiros extends React.Component {
       agencia: "",
       conta: "",
       tp_conta: "",
+      dt_cadastro: new Date()
 
     }
 
@@ -251,6 +252,7 @@ class CadParceiros extends React.Component {
           width={700}
           title="Cadastro de Parceiros"
           visible={this.state.visible}
+          onCancel={(e)=>this.CloseModal()}
           footer={[
             <Button key="back" onClick={(e) => this.CloseModal()}  >
               Cancelar

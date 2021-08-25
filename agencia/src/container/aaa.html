@@ -1,0 +1,603 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+  <head>
+    <title>sqlalchemy.exc.ProgrammingError: (psycopg2.ProgrammingError) can&#x27;t adapt type &#x27;dict&#x27;
+[SQL: INSERT INTO public.funcionarios (nome, cpf, rg, tp_acesso, status, primeiro_acesso, email, 
+    telefone, obs, funcao, ctps, reservista, titulo, dt_nascimento, dt_admissao, dt_desligamento, genero, cep, 
+    cod_cidade, estado, rua, bairro, complemento, banco, agencia, conta, tp_conta, dt_create) 
+    VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 
+    %s, current_timestamp) RETURNING id]
+[parameters: (&#x27;d&#x27;, &#x27;321&#x27;, &#x27;213&#x27;, 1, {&#x27;value&#x27;: 1, &#x27;label&#x27;: &#x27;Ativo&#x27;, &#x27;key&#x27;: 1}, 1, &#x27;d&#x27;, &#x27;(14) 9 9772-8050&#x27;, &#x27;dsa&#x27;, &#x27;d&#x27;, &#x27;321&#x27;, &#x27;312&#x27;, &#x27;321&#x27;, &#x27;01/09/2021&#x27;, &#x27;24/08/2021&#x27;, &#x27;05/09/1964&#x27;, 1, &#x27;88054-430&#x27;, 3850, 2, &#x27;dsa&#x27;, &#x27;dsa&#x27;, &#x27;das&#x27;, &#x27;321&#x27;, &#x27;312&#x27;, &#x27;321&#x27;, &#x27;312&#x27;)]
+(Background on this error at: http://sqlalche.me/e/14/f405) // Werkzeug Debugger</title>
+    <link rel="stylesheet" href="?__debugger__=yes&amp;cmd=resource&amp;f=style.css"
+        type="text/css">
+    <!-- We need to make sure this has a favicon so that the debugger does
+         not accidentally trigger a request to /favicon.ico which might
+         change the application's state. -->
+    <link rel="shortcut icon"
+        href="?__debugger__=yes&amp;cmd=resource&amp;f=console.png">
+    <script src="?__debugger__=yes&amp;cmd=resource&amp;f=debugger.js"></script>
+    <script type="text/javascript">
+      var TRACEBACK = 140434491298864,
+          CONSOLE_MODE = false,
+          EVALEX = true,
+          EVALEX_TRUSTED = false,
+          SECRET = "GTuTjysn7M2P54xkO3Zv";
+    </script>
+  </head>
+  <body style="background-color: #fff">
+    <div class="debugger">
+<h1>sqlalchemy.exc.ProgrammingError</h1>
+<div class="detail">
+  <p class="errormsg">sqlalchemy.exc.ProgrammingError: (psycopg2.ProgrammingError) can&#x27;t adapt type &#x27;dict&#x27;
+[SQL: INSERT INTO public.funcionarios (nome, cpf, rg, tp_acesso, status, primeiro_acesso, email, 
+    telefone, obs, funcao, ctps, reservista, titulo, dt_nascimento, dt_admissao, dt_desligamento, genero, cep, 
+    cod_cidade, estado, rua, bairro, complemento, banco, agencia, conta, tp_conta, dt_create) 
+    VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 
+    %s, current_timestamp) RETURNING id]
+[parameters: (&#x27;d&#x27;, &#x27;321&#x27;, &#x27;213&#x27;, 1, {&#x27;value&#x27;: 1, &#x27;label&#x27;: &#x27;Ativo&#x27;, &#x27;key&#x27;: 1}, 1, &#x27;d&#x27;, &#x27;(14) 9 9772-8050&#x27;, &#x27;dsa&#x27;, &#x27;d&#x27;, &#x27;321&#x27;, &#x27;312&#x27;, &#x27;321&#x27;, &#x27;01/09/2021&#x27;, &#x27;24/08/2021&#x27;, &#x27;05/09/1964&#x27;, 1, &#x27;88054-430&#x27;, 3850, 2, &#x27;dsa&#x27;, &#x27;dsa&#x27;, &#x27;das&#x27;, &#x27;321&#x27;, &#x27;312&#x27;, &#x27;321&#x27;, &#x27;312&#x27;)]
+(Background on this error at: http://sqlalche.me/e/14/f405)</p>
+</div>
+<h2 class="traceback">Traceback <em>(most recent call last)</em></h2>
+<div class="traceback">
+  <h3></h3>
+  <ul><li><div class="frame" id="frame-140434491301024">
+  <h4>File <cite class="filename">"/usr/local/lib/python3.8/dist-packages/sqlalchemy/engine/base.py"</cite>,
+      line <em class="line">1770</em>,
+      in <code class="function">_execute_context</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">                    </span>for fn in self.dialect.dispatch.do_execute:</pre>
+<pre class="line before"><span class="ws">                        </span>if fn(cursor, statement, parameters, context):</pre>
+<pre class="line before"><span class="ws">                            </span>evt_handled = True</pre>
+<pre class="line before"><span class="ws">                            </span>break</pre>
+<pre class="line before"><span class="ws">                </span>if not evt_handled:</pre>
+<pre class="line current"><span class="ws">                    </span>self.dialect.do_execute(</pre>
+<pre class="line after"><span class="ws">                        </span>cursor, statement, parameters, context</pre>
+<pre class="line after"><span class="ws">                    </span>)</pre>
+<pre class="line after"><span class="ws"></span> </pre>
+<pre class="line after"><span class="ws">            </span>if self._has_events or self.engine._has_events:</pre>
+<pre class="line after"><span class="ws">                </span>self.dispatch.after_cursor_execute(</pre></div>
+</div>
+
+<li><div class="frame" id="frame-140434491300304">
+  <h4>File <cite class="filename">"/usr/local/lib/python3.8/dist-packages/sqlalchemy/engine/default.py"</cite>,
+      line <em class="line">717</em>,
+      in <code class="function">do_execute</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws"></span> </pre>
+<pre class="line before"><span class="ws">    </span>def do_executemany(self, cursor, statement, parameters, context=None):</pre>
+<pre class="line before"><span class="ws">        </span>cursor.executemany(statement, parameters)</pre>
+<pre class="line before"><span class="ws"></span> </pre>
+<pre class="line before"><span class="ws">    </span>def do_execute(self, cursor, statement, parameters, context=None):</pre>
+<pre class="line current"><span class="ws">        </span>cursor.execute(statement, parameters)</pre>
+<pre class="line after"><span class="ws"></span> </pre>
+<pre class="line after"><span class="ws">    </span>def do_execute_no_params(self, cursor, statement, context=None):</pre>
+<pre class="line after"><span class="ws">        </span>cursor.execute(statement)</pre>
+<pre class="line after"><span class="ws"></span> </pre>
+<pre class="line after"><span class="ws">    </span>def is_disconnect(self, e, connection, cursor):</pre></div>
+</div>
+
+<li><div class="exc-divider">The above exception was the direct cause of the following exception:</div>
+<li><div class="frame" id="frame-140434491298768">
+  <h4>File <cite class="filename">"/usr/local/lib/python3.8/dist-packages/flask/app.py"</cite>,
+      line <em class="line">2464</em>,
+      in <code class="function">__call__</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws"></span> </pre>
+<pre class="line before"><span class="ws">    </span>def __call__(self, environ, start_response):</pre>
+<pre class="line before"><span class="ws">        </span>&quot;&quot;&quot;The WSGI server calls the Flask application object as the</pre>
+<pre class="line before"><span class="ws">        </span>WSGI application. This calls :meth:`wsgi_app` which can be</pre>
+<pre class="line before"><span class="ws">        </span>wrapped to applying middleware.&quot;&quot;&quot;</pre>
+<pre class="line current"><span class="ws">        </span>return self.wsgi_app(environ, start_response)</pre>
+<pre class="line after"><span class="ws"></span> </pre>
+<pre class="line after"><span class="ws">    </span>def __repr__(self):</pre>
+<pre class="line after"><span class="ws">        </span>return &quot;&lt;%s %r&gt;&quot; % (self.__class__.__name__, self.name)</pre></div>
+</div>
+
+<li><div class="frame" id="frame-140434491299248">
+  <h4>File <cite class="filename">"/usr/local/lib/python3.8/dist-packages/flask/app.py"</cite>,
+      line <em class="line">2450</em>,
+      in <code class="function">wsgi_app</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">            </span>try:</pre>
+<pre class="line before"><span class="ws">                </span>ctx.push()</pre>
+<pre class="line before"><span class="ws">                </span>response = self.full_dispatch_request()</pre>
+<pre class="line before"><span class="ws">            </span>except Exception as e:</pre>
+<pre class="line before"><span class="ws">                </span>error = e</pre>
+<pre class="line current"><span class="ws">                </span>response = self.handle_exception(e)</pre>
+<pre class="line after"><span class="ws">            </span>except:  # noqa: B001</pre>
+<pre class="line after"><span class="ws">                </span>error = sys.exc_info()[1]</pre>
+<pre class="line after"><span class="ws">                </span>raise</pre>
+<pre class="line after"><span class="ws">            </span>return response(environ, start_response)</pre>
+<pre class="line after"><span class="ws">        </span>finally:</pre></div>
+</div>
+
+<li><div class="frame" id="frame-140434491299008">
+  <h4>File <cite class="filename">"/usr/local/lib/python3.8/dist-packages/flask_cors/extension.py"</cite>,
+      line <em class="line">165</em>,
+      in <code class="function">wrapped_function</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">        </span># Wrap exception handlers with cross_origin</pre>
+<pre class="line before"><span class="ws">        </span># These error handlers will still respect the behavior of the route</pre>
+<pre class="line before"><span class="ws">        </span>if options.get(&#x27;intercept_exceptions&#x27;, True):</pre>
+<pre class="line before"><span class="ws">            </span>def _after_request_decorator(f):</pre>
+<pre class="line before"><span class="ws">                </span>def wrapped_function(*args, **kwargs):</pre>
+<pre class="line current"><span class="ws">                    </span>return cors_after_request(app.make_response(f(*args, **kwargs)))</pre>
+<pre class="line after"><span class="ws">                </span>return wrapped_function</pre>
+<pre class="line after"><span class="ws"></span> </pre>
+<pre class="line after"><span class="ws">            </span>if hasattr(app, &#x27;handle_exception&#x27;):</pre>
+<pre class="line after"><span class="ws">                </span>app.handle_exception = _after_request_decorator(</pre>
+<pre class="line after"><span class="ws">                    </span>app.handle_exception)</pre></div>
+</div>
+
+<li><div class="frame" id="frame-140434491299200">
+  <h4>File <cite class="filename">"/usr/local/lib/python3.8/dist-packages/flask/app.py"</cite>,
+      line <em class="line">1867</em>,
+      in <code class="function">handle_exception</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">            </span># if we want to repropagate the exception, we can attempt to</pre>
+<pre class="line before"><span class="ws">            </span># raise it with the whole traceback in case we can do that</pre>
+<pre class="line before"><span class="ws">            </span># (the function was actually called from the except part)</pre>
+<pre class="line before"><span class="ws">            </span># otherwise, we just raise the error again</pre>
+<pre class="line before"><span class="ws">            </span>if exc_value is e:</pre>
+<pre class="line current"><span class="ws">                </span>reraise(exc_type, exc_value, tb)</pre>
+<pre class="line after"><span class="ws">            </span>else:</pre>
+<pre class="line after"><span class="ws">                </span>raise e</pre>
+<pre class="line after"><span class="ws"></span> </pre>
+<pre class="line after"><span class="ws">        </span>self.log_exception((exc_type, exc_value, tb))</pre>
+<pre class="line after"><span class="ws">        </span>server_error = InternalServerError()</pre></div>
+</div>
+
+<li><div class="frame" id="frame-140434491299056">
+  <h4>File <cite class="filename">"/usr/local/lib/python3.8/dist-packages/flask/_compat.py"</cite>,
+      line <em class="line">39</em>,
+      in <code class="function">reraise</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">    </span>import collections.abc as collections_abc</pre>
+<pre class="line before"><span class="ws"></span> </pre>
+<pre class="line before"><span class="ws">    </span>def reraise(tp, value, tb=None):</pre>
+<pre class="line before"><span class="ws">        </span>if value.__traceback__ is not tb:</pre>
+<pre class="line before"><span class="ws">            </span>raise value.with_traceback(tb)</pre>
+<pre class="line current"><span class="ws">        </span>raise value</pre>
+<pre class="line after"><span class="ws"></span> </pre>
+<pre class="line after"><span class="ws">    </span>implements_to_string = _identity</pre>
+<pre class="line after"><span class="ws"></span> </pre>
+<pre class="line after"><span class="ws"></span>else:</pre>
+<pre class="line after"><span class="ws">    </span>iterkeys = lambda d: d.iterkeys()</pre></div>
+</div>
+
+<li><div class="frame" id="frame-140434491299104">
+  <h4>File <cite class="filename">"/usr/local/lib/python3.8/dist-packages/flask/app.py"</cite>,
+      line <em class="line">2447</em>,
+      in <code class="function">wsgi_app</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">        </span>ctx = self.request_context(environ)</pre>
+<pre class="line before"><span class="ws">        </span>error = None</pre>
+<pre class="line before"><span class="ws">        </span>try:</pre>
+<pre class="line before"><span class="ws">            </span>try:</pre>
+<pre class="line before"><span class="ws">                </span>ctx.push()</pre>
+<pre class="line current"><span class="ws">                </span>response = self.full_dispatch_request()</pre>
+<pre class="line after"><span class="ws">            </span>except Exception as e:</pre>
+<pre class="line after"><span class="ws">                </span>error = e</pre>
+<pre class="line after"><span class="ws">                </span>response = self.handle_exception(e)</pre>
+<pre class="line after"><span class="ws">            </span>except:  # noqa: B001</pre>
+<pre class="line after"><span class="ws">                </span>error = sys.exc_info()[1]</pre></div>
+</div>
+
+<li><div class="frame" id="frame-140434491299296">
+  <h4>File <cite class="filename">"/usr/local/lib/python3.8/dist-packages/flask/app.py"</cite>,
+      line <em class="line">1952</em>,
+      in <code class="function">full_dispatch_request</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">            </span>request_started.send(self)</pre>
+<pre class="line before"><span class="ws">            </span>rv = self.preprocess_request()</pre>
+<pre class="line before"><span class="ws">            </span>if rv is None:</pre>
+<pre class="line before"><span class="ws">                </span>rv = self.dispatch_request()</pre>
+<pre class="line before"><span class="ws">        </span>except Exception as e:</pre>
+<pre class="line current"><span class="ws">            </span>rv = self.handle_user_exception(e)</pre>
+<pre class="line after"><span class="ws">        </span>return self.finalize_request(rv)</pre>
+<pre class="line after"><span class="ws"></span> </pre>
+<pre class="line after"><span class="ws">    </span>def finalize_request(self, rv, from_error_handler=False):</pre>
+<pre class="line after"><span class="ws">        </span>&quot;&quot;&quot;Given the return value from a view function this finalizes</pre>
+<pre class="line after"><span class="ws">        </span>the request by converting it into a response and invoking the</pre></div>
+</div>
+
+<li><div class="frame" id="frame-140434491299344">
+  <h4>File <cite class="filename">"/usr/local/lib/python3.8/dist-packages/flask_cors/extension.py"</cite>,
+      line <em class="line">165</em>,
+      in <code class="function">wrapped_function</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">        </span># Wrap exception handlers with cross_origin</pre>
+<pre class="line before"><span class="ws">        </span># These error handlers will still respect the behavior of the route</pre>
+<pre class="line before"><span class="ws">        </span>if options.get(&#x27;intercept_exceptions&#x27;, True):</pre>
+<pre class="line before"><span class="ws">            </span>def _after_request_decorator(f):</pre>
+<pre class="line before"><span class="ws">                </span>def wrapped_function(*args, **kwargs):</pre>
+<pre class="line current"><span class="ws">                    </span>return cors_after_request(app.make_response(f(*args, **kwargs)))</pre>
+<pre class="line after"><span class="ws">                </span>return wrapped_function</pre>
+<pre class="line after"><span class="ws"></span> </pre>
+<pre class="line after"><span class="ws">            </span>if hasattr(app, &#x27;handle_exception&#x27;):</pre>
+<pre class="line after"><span class="ws">                </span>app.handle_exception = _after_request_decorator(</pre>
+<pre class="line after"><span class="ws">                    </span>app.handle_exception)</pre></div>
+</div>
+
+<li><div class="frame" id="frame-140434491299392">
+  <h4>File <cite class="filename">"/usr/local/lib/python3.8/dist-packages/flask/app.py"</cite>,
+      line <em class="line">1821</em>,
+      in <code class="function">handle_user_exception</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">            </span>return self.handle_http_exception(e)</pre>
+<pre class="line before"><span class="ws"></span> </pre>
+<pre class="line before"><span class="ws">        </span>handler = self._find_error_handler(e)</pre>
+<pre class="line before"><span class="ws"></span> </pre>
+<pre class="line before"><span class="ws">        </span>if handler is None:</pre>
+<pre class="line current"><span class="ws">            </span>reraise(exc_type, exc_value, tb)</pre>
+<pre class="line after"><span class="ws">        </span>return handler(e)</pre>
+<pre class="line after"><span class="ws"></span> </pre>
+<pre class="line after"><span class="ws">    </span>def handle_exception(self, e):</pre>
+<pre class="line after"><span class="ws">        </span>&quot;&quot;&quot;Handle an exception that did not have an error handler</pre>
+<pre class="line after"><span class="ws">        </span>associated with it, or that was raised from an error handler.</pre></div>
+</div>
+
+<li><div class="frame" id="frame-140434491299440">
+  <h4>File <cite class="filename">"/usr/local/lib/python3.8/dist-packages/flask/_compat.py"</cite>,
+      line <em class="line">39</em>,
+      in <code class="function">reraise</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">    </span>import collections.abc as collections_abc</pre>
+<pre class="line before"><span class="ws"></span> </pre>
+<pre class="line before"><span class="ws">    </span>def reraise(tp, value, tb=None):</pre>
+<pre class="line before"><span class="ws">        </span>if value.__traceback__ is not tb:</pre>
+<pre class="line before"><span class="ws">            </span>raise value.with_traceback(tb)</pre>
+<pre class="line current"><span class="ws">        </span>raise value</pre>
+<pre class="line after"><span class="ws"></span> </pre>
+<pre class="line after"><span class="ws">    </span>implements_to_string = _identity</pre>
+<pre class="line after"><span class="ws"></span> </pre>
+<pre class="line after"><span class="ws"></span>else:</pre>
+<pre class="line after"><span class="ws">    </span>iterkeys = lambda d: d.iterkeys()</pre></div>
+</div>
+
+<li><div class="frame" id="frame-140434491299536">
+  <h4>File <cite class="filename">"/usr/local/lib/python3.8/dist-packages/flask/app.py"</cite>,
+      line <em class="line">1950</em>,
+      in <code class="function">full_dispatch_request</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">        </span>self.try_trigger_before_first_request_functions()</pre>
+<pre class="line before"><span class="ws">        </span>try:</pre>
+<pre class="line before"><span class="ws">            </span>request_started.send(self)</pre>
+<pre class="line before"><span class="ws">            </span>rv = self.preprocess_request()</pre>
+<pre class="line before"><span class="ws">            </span>if rv is None:</pre>
+<pre class="line current"><span class="ws">                </span>rv = self.dispatch_request()</pre>
+<pre class="line after"><span class="ws">        </span>except Exception as e:</pre>
+<pre class="line after"><span class="ws">            </span>rv = self.handle_user_exception(e)</pre>
+<pre class="line after"><span class="ws">        </span>return self.finalize_request(rv)</pre>
+<pre class="line after"><span class="ws"></span> </pre>
+<pre class="line after"><span class="ws">    </span>def finalize_request(self, rv, from_error_handler=False):</pre></div>
+</div>
+
+<li><div class="frame" id="frame-140434491299584">
+  <h4>File <cite class="filename">"/usr/local/lib/python3.8/dist-packages/flask/app.py"</cite>,
+      line <em class="line">1936</em>,
+      in <code class="function">dispatch_request</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">            </span>getattr(rule, &quot;provide_automatic_options&quot;, False)</pre>
+<pre class="line before"><span class="ws">            </span>and req.method == &quot;OPTIONS&quot;</pre>
+<pre class="line before"><span class="ws">        </span>):</pre>
+<pre class="line before"><span class="ws">            </span>return self.make_default_options_response()</pre>
+<pre class="line before"><span class="ws">        </span># otherwise dispatch to the handler for that endpoint</pre>
+<pre class="line current"><span class="ws">        </span>return self.view_functions[rule.endpoint](**req.view_args)</pre>
+<pre class="line after"><span class="ws"></span> </pre>
+<pre class="line after"><span class="ws">    </span>def full_dispatch_request(self):</pre>
+<pre class="line after"><span class="ws">        </span>&quot;&quot;&quot;Dispatches the request and on top of that performs request</pre>
+<pre class="line after"><span class="ws">        </span>pre and postprocessing as well as HTTP exception catching and</pre>
+<pre class="line after"><span class="ws">        </span>error handling.</pre></div>
+</div>
+
+<li><div class="frame" id="frame-140434491299632">
+  <h4>File <cite class="filename">"/home/aquino/Projetos/AGENCIA/backend/api_run.py"</cite>,
+      line <em class="line">84</em>,
+      in <code class="function">cadastrafuncionario</code></h4>
+  <div class="source "><pre class="line before"><span class="ws"></span>def cadastrafuncionario():</pre>
+<pre class="line before"><span class="ws">    </span>post = dados.parse_args()</pre>
+<pre class="line before"><span class="ws">    </span>dados_cadastro = post[&#x27;cadastro_funcionario&#x27;][0]</pre>
+<pre class="line before"><span class="ws">    </span>print(&quot;cadastra Funcionario: &quot;, dados_cadastro)</pre>
+<pre class="line before"><span class="ws">    </span>if ast.literal_eval(dados_cadastro)[&#x27;id&#x27;]==&quot;&quot;:</pre>
+<pre class="line current"><span class="ws">        </span>retorno = insert.insert_funcionario(ast.literal_eval(dados_cadastro))</pre>
+<pre class="line after"><span class="ws">    </span>else:</pre>
+<pre class="line after"><span class="ws">        </span>retorno = insert.UpdateFuncionario(ast.literal_eval(dados_cadastro))</pre>
+<pre class="line after"><span class="ws">    </span># print(&#x27;-----------------/-############################ busca: &#x27;, consulta)</pre>
+<pre class="line after"><span class="ws">    </span># d = {&#x27;funcionarios&#x27;: [{&#x27;nome&#x27;: &#x27;Rogerio de Aquino silva&#x27;, &#x27;cpf&#x27;: &#x27;322.684.848-82&#x27;, &#x27;cod_funcionario&#x27;:123}, {&#x27;nome&#x27;: &#x27;Everton Davi&#x27;, &#x27;cpf&#x27;: &#x27;322.664.878-84&#x27;, &#x27;cod_funcionario&#x27;:126}]}</pre>
+<pre class="line after"><span class="ws">    </span>return retorno,200</pre></div>
+</div>
+
+<li><div class="frame" id="frame-140434491299728">
+  <h4>File <cite class="filename">"/home/aquino/Projetos/AGENCIA/backend/insert.py"</cite>,
+      line <em class="line">55</em>,
+      in <code class="function">insert_funcionario</code></h4>
+  <div class="source "><pre class="line before"><span class="ws">    </span>telefone, obs, funcao, ctps, reservista, titulo, dt_nascimento, dt_admissao, dt_desligamento, genero, cep,</pre>
+<pre class="line before"><span class="ws">    </span>cod_cidade, estado, rua, bairro, complemento, banco, agencia, conta, tp_conta, dt_create)</pre>
+<pre class="line before"><span class="ws">    </span>VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,</pre>
+<pre class="line before"><span class="ws">    </span>%s, current_timestamp) RETURNING id&quot;&quot;&quot;</pre>
+<pre class="line before"><span class="ws"></span> </pre>
+<pre class="line current"><span class="ws">    </span>result = cur.execute(query, dados)</pre>
+<pre class="line after"><span class="ws">    </span>id = result.fetchone()[0]</pre>
+<pre class="line after"><span class="ws">    </span>print(&quot;Funcionario cadastrado com sucesso: &quot;, id)</pre>
+<pre class="line after"><span class="ws">    </span>return {&#x27;id_funcionario&#x27;: id}</pre>
+<pre class="line after"><span class="ws"></span> </pre>
+<pre class="line after"><span class="ws"></span> </pre></div>
+</div>
+
+<li><div class="frame" id="frame-140434491299776">
+  <h4>File <cite class="filename">"/usr/local/lib/python3.8/dist-packages/sqlalchemy/engine/base.py"</cite>,
+      line <em class="line">1247</em>,
+      in <code class="function">execute</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">                </span>&quot;text() construct, &quot;</pre>
+<pre class="line before"><span class="ws">                </span>&quot;or the Connection.exec_driver_sql() method to invoke a &quot;</pre>
+<pre class="line before"><span class="ws">                </span>&quot;driver-level SQL string.&quot;</pre>
+<pre class="line before"><span class="ws">            </span>)</pre>
+<pre class="line before"><span class="ws"></span> </pre>
+<pre class="line current"><span class="ws">            </span>return self._exec_driver_sql(</pre>
+<pre class="line after"><span class="ws">                </span>statement,</pre>
+<pre class="line after"><span class="ws">                </span>multiparams,</pre>
+<pre class="line after"><span class="ws">                </span>params,</pre>
+<pre class="line after"><span class="ws">                </span>_EMPTY_EXECUTION_OPTS,</pre>
+<pre class="line after"><span class="ws">                </span>future=False,</pre></div>
+</div>
+
+<li><div class="frame" id="frame-140434491299920">
+  <h4>File <cite class="filename">"/usr/local/lib/python3.8/dist-packages/sqlalchemy/engine/base.py"</cite>,
+      line <em class="line">1546</em>,
+      in <code class="function">_exec_driver_sql</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">                </span>) = self._invoke_before_exec_event(</pre>
+<pre class="line before"><span class="ws">                    </span>statement, distilled_parameters, execution_options</pre>
+<pre class="line before"><span class="ws">                </span>)</pre>
+<pre class="line before"><span class="ws"></span> </pre>
+<pre class="line before"><span class="ws">        </span>dialect = self.dialect</pre>
+<pre class="line current"><span class="ws">        </span>ret = self._execute_context(</pre>
+<pre class="line after"><span class="ws">            </span>dialect,</pre>
+<pre class="line after"><span class="ws">            </span>dialect.execution_ctx_cls._init_statement,</pre>
+<pre class="line after"><span class="ws">            </span>statement,</pre>
+<pre class="line after"><span class="ws">            </span>distilled_parameters,</pre>
+<pre class="line after"><span class="ws">            </span>execution_options,</pre></div>
+</div>
+
+<li><div class="frame" id="frame-140434491299968">
+  <h4>File <cite class="filename">"/usr/local/lib/python3.8/dist-packages/sqlalchemy/engine/base.py"</cite>,
+      line <em class="line">1813</em>,
+      in <code class="function">_execute_context</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">                    </span># CursorResult already exhausted rows / has no rows.</pre>
+<pre class="line before"><span class="ws">                    </span># close us now</pre>
+<pre class="line before"><span class="ws">                    </span>branched.close()</pre>
+<pre class="line before"><span class="ws"></span> </pre>
+<pre class="line before"><span class="ws">        </span>except BaseException as e:</pre>
+<pre class="line current"><span class="ws">            </span>self._handle_dbapi_exception(</pre>
+<pre class="line after"><span class="ws">                </span>e, statement, parameters, cursor, context</pre>
+<pre class="line after"><span class="ws">            </span>)</pre>
+<pre class="line after"><span class="ws"></span> </pre>
+<pre class="line after"><span class="ws">        </span>return result</pre>
+<pre class="line after"><span class="ws"></span> </pre></div>
+</div>
+
+<li><div class="frame" id="frame-140434491300016">
+  <h4>File <cite class="filename">"/usr/local/lib/python3.8/dist-packages/sqlalchemy/engine/base.py"</cite>,
+      line <em class="line">1994</em>,
+      in <code class="function">_handle_dbapi_exception</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">                    </span>self._autorollback()</pre>
+<pre class="line before"><span class="ws"></span> </pre>
+<pre class="line before"><span class="ws">            </span>if newraise:</pre>
+<pre class="line before"><span class="ws">                </span>util.raise_(newraise, with_traceback=exc_info[2], from_=e)</pre>
+<pre class="line before"><span class="ws">            </span>elif should_wrap:</pre>
+<pre class="line current"><span class="ws">                </span>util.raise_(</pre>
+<pre class="line after"><span class="ws">                    </span>sqlalchemy_exception, with_traceback=exc_info[2], from_=e</pre>
+<pre class="line after"><span class="ws">                </span>)</pre>
+<pre class="line after"><span class="ws">            </span>else:</pre>
+<pre class="line after"><span class="ws">                </span>util.raise_(exc_info[1], with_traceback=exc_info[2])</pre>
+<pre class="line after"><span class="ws"></span> </pre></div>
+</div>
+
+<li><div class="frame" id="frame-140434491300064">
+  <h4>File <cite class="filename">"/usr/local/lib/python3.8/dist-packages/sqlalchemy/util/compat.py"</cite>,
+      line <em class="line">207</em>,
+      in <code class="function">raise_</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">            </span># intermediary exception does not change, but we can&#x27;t figure</pre>
+<pre class="line before"><span class="ws">            </span># that out.</pre>
+<pre class="line before"><span class="ws">            </span>exception.__cause__ = replace_context</pre>
+<pre class="line before"><span class="ws"></span> </pre>
+<pre class="line before"><span class="ws">        </span>try:</pre>
+<pre class="line current"><span class="ws">            </span>raise exception</pre>
+<pre class="line after"><span class="ws">        </span>finally:</pre>
+<pre class="line after"><span class="ws">            </span># credit to</pre>
+<pre class="line after"><span class="ws">            </span># https://cosmicpercolator.com/2016/01/13/exception-leaks-in-python-2-and-3/</pre>
+<pre class="line after"><span class="ws">            </span># as the __traceback__ object creates a cycle</pre>
+<pre class="line after"><span class="ws">            </span>del exception, replace_context, from_, with_traceback</pre></div>
+</div>
+
+<li><div class="frame" id="frame-140434491301648">
+  <h4>File <cite class="filename">"/usr/local/lib/python3.8/dist-packages/sqlalchemy/engine/base.py"</cite>,
+      line <em class="line">1770</em>,
+      in <code class="function">_execute_context</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">                    </span>for fn in self.dialect.dispatch.do_execute:</pre>
+<pre class="line before"><span class="ws">                        </span>if fn(cursor, statement, parameters, context):</pre>
+<pre class="line before"><span class="ws">                            </span>evt_handled = True</pre>
+<pre class="line before"><span class="ws">                            </span>break</pre>
+<pre class="line before"><span class="ws">                </span>if not evt_handled:</pre>
+<pre class="line current"><span class="ws">                    </span>self.dialect.do_execute(</pre>
+<pre class="line after"><span class="ws">                        </span>cursor, statement, parameters, context</pre>
+<pre class="line after"><span class="ws">                    </span>)</pre>
+<pre class="line after"><span class="ws"></span> </pre>
+<pre class="line after"><span class="ws">            </span>if self._has_events or self.engine._has_events:</pre>
+<pre class="line after"><span class="ws">                </span>self.dispatch.after_cursor_execute(</pre></div>
+</div>
+
+<li><div class="frame" id="frame-140434491298720">
+  <h4>File <cite class="filename">"/usr/local/lib/python3.8/dist-packages/sqlalchemy/engine/default.py"</cite>,
+      line <em class="line">717</em>,
+      in <code class="function">do_execute</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws"></span> </pre>
+<pre class="line before"><span class="ws">    </span>def do_executemany(self, cursor, statement, parameters, context=None):</pre>
+<pre class="line before"><span class="ws">        </span>cursor.executemany(statement, parameters)</pre>
+<pre class="line before"><span class="ws"></span> </pre>
+<pre class="line before"><span class="ws">    </span>def do_execute(self, cursor, statement, parameters, context=None):</pre>
+<pre class="line current"><span class="ws">        </span>cursor.execute(statement, parameters)</pre>
+<pre class="line after"><span class="ws"></span> </pre>
+<pre class="line after"><span class="ws">    </span>def do_execute_no_params(self, cursor, statement, context=None):</pre>
+<pre class="line after"><span class="ws">        </span>cursor.execute(statement)</pre>
+<pre class="line after"><span class="ws"></span> </pre>
+<pre class="line after"><span class="ws">    </span>def is_disconnect(self, e, connection, cursor):</pre></div>
+</div>
+</ul>
+  <blockquote>sqlalchemy.exc.ProgrammingError: (psycopg2.ProgrammingError) can&#x27;t adapt type &#x27;dict&#x27;
+[SQL: INSERT INTO public.funcionarios (nome, cpf, rg, tp_acesso, status, primeiro_acesso, email, 
+    telefone, obs, funcao, ctps, reservista, titulo, dt_nascimento, dt_admissao, dt_desligamento, genero, cep, 
+    cod_cidade, estado, rua, bairro, complemento, banco, agencia, conta, tp_conta, dt_create) 
+    VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 
+    %s, current_timestamp) RETURNING id]
+[parameters: (&#x27;d&#x27;, &#x27;321&#x27;, &#x27;213&#x27;, 1, {&#x27;value&#x27;: 1, &#x27;label&#x27;: &#x27;Ativo&#x27;, &#x27;key&#x27;: 1}, 1, &#x27;d&#x27;, &#x27;(14) 9 9772-8050&#x27;, &#x27;dsa&#x27;, &#x27;d&#x27;, &#x27;321&#x27;, &#x27;312&#x27;, &#x27;321&#x27;, &#x27;01/09/2021&#x27;, &#x27;24/08/2021&#x27;, &#x27;05/09/1964&#x27;, 1, &#x27;88054-430&#x27;, 3850, 2, &#x27;dsa&#x27;, &#x27;dsa&#x27;, &#x27;das&#x27;, &#x27;321&#x27;, &#x27;312&#x27;, &#x27;321&#x27;, &#x27;312&#x27;)]
+(Background on this error at: http://sqlalche.me/e/14/f405)</blockquote>
+</div>
+
+<div class="plain">
+    <p>
+      This is the Copy/Paste friendly version of the traceback.
+    </p>
+    <textarea cols="50" rows="10" name="code" readonly>Traceback (most recent call last):
+  File &quot;/usr/local/lib/python3.8/dist-packages/sqlalchemy/engine/base.py&quot;, line 1770, in _execute_context
+    self.dialect.do_execute(
+  File &quot;/usr/local/lib/python3.8/dist-packages/sqlalchemy/engine/default.py&quot;, line 717, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.ProgrammingError: can&#x27;t adapt type &#x27;dict&#x27;
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File &quot;/usr/local/lib/python3.8/dist-packages/flask/app.py&quot;, line 2464, in __call__
+    return self.wsgi_app(environ, start_response)
+  File &quot;/usr/local/lib/python3.8/dist-packages/flask/app.py&quot;, line 2450, in wsgi_app
+    response = self.handle_exception(e)
+  File &quot;/usr/local/lib/python3.8/dist-packages/flask_cors/extension.py&quot;, line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File &quot;/usr/local/lib/python3.8/dist-packages/flask/app.py&quot;, line 1867, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File &quot;/usr/local/lib/python3.8/dist-packages/flask/_compat.py&quot;, line 39, in reraise
+    raise value
+  File &quot;/usr/local/lib/python3.8/dist-packages/flask/app.py&quot;, line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File &quot;/usr/local/lib/python3.8/dist-packages/flask/app.py&quot;, line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File &quot;/usr/local/lib/python3.8/dist-packages/flask_cors/extension.py&quot;, line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File &quot;/usr/local/lib/python3.8/dist-packages/flask/app.py&quot;, line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File &quot;/usr/local/lib/python3.8/dist-packages/flask/_compat.py&quot;, line 39, in reraise
+    raise value
+  File &quot;/usr/local/lib/python3.8/dist-packages/flask/app.py&quot;, line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File &quot;/usr/local/lib/python3.8/dist-packages/flask/app.py&quot;, line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File &quot;/home/aquino/Projetos/AGENCIA/backend/api_run.py&quot;, line 84, in cadastrafuncionario
+    retorno = insert.insert_funcionario(ast.literal_eval(dados_cadastro))
+  File &quot;/home/aquino/Projetos/AGENCIA/backend/insert.py&quot;, line 55, in insert_funcionario
+    result = cur.execute(query, dados)
+  File &quot;/usr/local/lib/python3.8/dist-packages/sqlalchemy/engine/base.py&quot;, line 1247, in execute
+    return self._exec_driver_sql(
+  File &quot;/usr/local/lib/python3.8/dist-packages/sqlalchemy/engine/base.py&quot;, line 1546, in _exec_driver_sql
+    ret = self._execute_context(
+  File &quot;/usr/local/lib/python3.8/dist-packages/sqlalchemy/engine/base.py&quot;, line 1813, in _execute_context
+    self._handle_dbapi_exception(
+  File &quot;/usr/local/lib/python3.8/dist-packages/sqlalchemy/engine/base.py&quot;, line 1994, in _handle_dbapi_exception
+    util.raise_(
+  File &quot;/usr/local/lib/python3.8/dist-packages/sqlalchemy/util/compat.py&quot;, line 207, in raise_
+    raise exception
+  File &quot;/usr/local/lib/python3.8/dist-packages/sqlalchemy/engine/base.py&quot;, line 1770, in _execute_context
+    self.dialect.do_execute(
+  File &quot;/usr/local/lib/python3.8/dist-packages/sqlalchemy/engine/default.py&quot;, line 717, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.ProgrammingError: (psycopg2.ProgrammingError) can&#x27;t adapt type &#x27;dict&#x27;
+[SQL: INSERT INTO public.funcionarios (nome, cpf, rg, tp_acesso, status, primeiro_acesso, email, 
+    telefone, obs, funcao, ctps, reservista, titulo, dt_nascimento, dt_admissao, dt_desligamento, genero, cep, 
+    cod_cidade, estado, rua, bairro, complemento, banco, agencia, conta, tp_conta, dt_create) 
+    VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 
+    %s, current_timestamp) RETURNING id]
+[parameters: (&#x27;d&#x27;, &#x27;321&#x27;, &#x27;213&#x27;, 1, {&#x27;value&#x27;: 1, &#x27;label&#x27;: &#x27;Ativo&#x27;, &#x27;key&#x27;: 1}, 1, &#x27;d&#x27;, &#x27;(14) 9 9772-8050&#x27;, &#x27;dsa&#x27;, &#x27;d&#x27;, &#x27;321&#x27;, &#x27;312&#x27;, &#x27;321&#x27;, &#x27;01/09/2021&#x27;, &#x27;24/08/2021&#x27;, &#x27;05/09/1964&#x27;, 1, &#x27;88054-430&#x27;, 3850, 2, &#x27;dsa&#x27;, &#x27;dsa&#x27;, &#x27;das&#x27;, &#x27;321&#x27;, &#x27;312&#x27;, &#x27;321&#x27;, &#x27;312&#x27;)]
+(Background on this error at: http://sqlalche.me/e/14/f405)</textarea>
+</div>
+<div class="explanation">
+  The debugger caught an exception in your WSGI application.  You can now
+  look at the traceback which led to the error.  <span class="nojavascript">
+  If you enable JavaScript you can also use additional features such as code
+  execution (if the evalex feature is enabled), automatic pasting of the
+  exceptions and much more.</span>
+</div>
+      <div class="footer">
+        Brought to you by <strong class="arthur">DON'T PANIC</strong>, your
+        friendly Werkzeug powered traceback interpreter.
+      </div>
+    </div>
+
+    <div class="pin-prompt">
+      <div class="inner">
+        <h3>Console Locked</h3>
+        <p>
+          The console is locked and needs to be unlocked by entering the PIN.
+          You can find the PIN printed out on the standard output of your
+          shell that runs the server.
+        <form>
+          <p>PIN:
+            <input type=text name=pin size=14>
+            <input type=submit name=btn value="Confirm Pin">
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
+
+<!--
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/sqlalchemy/engine/base.py", line 1770, in _execute_context
+    self.dialect.do_execute(
+  File "/usr/local/lib/python3.8/dist-packages/sqlalchemy/engine/default.py", line 717, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.ProgrammingError: can't adapt type 'dict'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/flask/app.py", line 2464, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/usr/local/lib/python3.8/dist-packages/flask/app.py", line 2450, in wsgi_app
+    response = self.handle_exception(e)
+  File "/usr/local/lib/python3.8/dist-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib/python3.8/dist-packages/flask/app.py", line 1867, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.8/dist-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib/python3.8/dist-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.8/dist-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.8/dist-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/usr/local/lib/python3.8/dist-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.8/dist-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib/python3.8/dist-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.8/dist-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/aquino/Projetos/AGENCIA/backend/api_run.py", line 84, in cadastrafuncionario
+    retorno = insert.insert_funcionario(ast.literal_eval(dados_cadastro))
+  File "/home/aquino/Projetos/AGENCIA/backend/insert.py", line 55, in insert_funcionario
+    result = cur.execute(query, dados)
+  File "/usr/local/lib/python3.8/dist-packages/sqlalchemy/engine/base.py", line 1247, in execute
+    return self._exec_driver_sql(
+  File "/usr/local/lib/python3.8/dist-packages/sqlalchemy/engine/base.py", line 1546, in _exec_driver_sql
+    ret = self._execute_context(
+  File "/usr/local/lib/python3.8/dist-packages/sqlalchemy/engine/base.py", line 1813, in _execute_context
+    self._handle_dbapi_exception(
+  File "/usr/local/lib/python3.8/dist-packages/sqlalchemy/engine/base.py", line 1994, in _handle_dbapi_exception
+    util.raise_(
+  File "/usr/local/lib/python3.8/dist-packages/sqlalchemy/util/compat.py", line 207, in raise_
+    raise exception
+  File "/usr/local/lib/python3.8/dist-packages/sqlalchemy/engine/base.py", line 1770, in _execute_context
+    self.dialect.do_execute(
+  File "/usr/local/lib/python3.8/dist-packages/sqlalchemy/engine/default.py", line 717, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.ProgrammingError: (psycopg2.ProgrammingError) can't adapt type 'dict'
+[SQL: INSERT INTO public.funcionarios (nome, cpf, rg, tp_acesso, status, primeiro_acesso, email, 
+    telefone, obs, funcao, ctps, reservista, titulo, dt_nascimento, dt_admissao, dt_desligamento, genero, cep, 
+    cod_cidade, estado, rua, bairro, complemento, banco, agencia, conta, tp_conta, dt_create) 
+    VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 
+    %s, current_timestamp) RETURNING id]
+[parameters: ('d', '321', '213', 1, {'value': 1, 'label': 'Ativo', 'key': 1}, 1, 'd', '(14) 9 9772-8050', 'dsa', 'd', '321', '312', '321', '01/09/2021', '24/08/2021', '05/09/1964', 1, '88054-430', 3850, 2, 'dsa', 'dsa', 'das', '321', '312', '321', '312')]
+(Background on this error at: http://sqlalche.me/e/14/f405)
+
+-->

@@ -1,7 +1,6 @@
-systemctl start postgresql.service
+launchctl start postgresql.service
 
-screen -S "PYTHON-SERVER-BACKEND" -d -m /home/aquino/Documentos/Projetos/AGENCIA/backend/venv/bin/python /home/aquino/Documentos/Projetos/AGENCIA/backend/api_run.py
+screen -S "PYTHON-SERVER-BACKEND" -d -m /Users/gucarvalho/go/src/github.com/aquino/AGENCIA/backend/venv/bin/python /Users/gucarvalho/go/src/github.com/aquino/AGENCIA/backend/api_run.py
 
-cd /home/aquino/Documentos/Projetos/AGENCIA/agencia/
-code .
+cd /Users/gucarvalho/go/src/github.com/aquino/AGENCIA/agencia/
 screen -S "REACT-SERVER" -d -m npm start

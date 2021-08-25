@@ -6,9 +6,7 @@ import { isCPF, formatToCPF, formatToPhone } from 'brazilian-values';
 import AbaEndereco from '../molecule/AbaEndereco'
 import HistFunc from '/Users/gucarvalho/go/src/github.com/aquino/AGENCIA/agencia/src/container/Historico'
 import moment from 'moment';
-
-const dateFormat = 'YYYY/MM/DD';
-const monthFormat = 'YYYY/MM';
+const dateFormat = 'DD/MM/YYYY';
 
 const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
 
@@ -44,9 +42,9 @@ class CadFuncionario extends React.Component {
       ctps: "",
       reservista: "",
       titulo: "",
-      dt_nascimento: "",
-      dt_admissao: "",
-      dt_desligamento: "",
+      dt_nascimento: new Date(),
+      dt_admissao: new Date(),
+      dt_desligamento: new Date(),
       status: "",
       genero: "",
       banco: "",
@@ -191,9 +189,9 @@ class CadFuncionario extends React.Component {
       'ctps': this.state.ctps,
       'reservista': this.state.reservista,
       'titulo': this.state.titulo,
-      'dt_nascimento': this.state.dt_nascimento,
-      'dt_admissao': this.state.dt_admissao,
-      'dt_desligamento': this.state.desligamento,
+      'dt_nascimento': moment(this.state.dt_nascimento).format(dateFormat),
+      'dt_admissao': moment(this.state.dt_admissao).format(dateFormat),
+      'dt_desligamento': moment(this.state.dt_desligamento).format(dateFormat),
       'genero': this.state.genero,
       'cep': this.state.cep,
       'cod_cidade': this.state.cod_cidade,
@@ -279,6 +277,7 @@ class CadFuncionario extends React.Component {
           width={700}
           title="Cadastro de Funcionários"
           visible={this.state.visible}
+          onCancel={(e)=>this.CloseModal()}
           footer={[
             <Button key="back" onClick={(e) => this.CloseModal()}>
               Cancelar
@@ -427,22 +426,19 @@ class CadFuncionario extends React.Component {
 
                   <th>
                     Data de Nascimento:<br />
-                    <DatePicker format={dateFormatList}
-                      defaultValue={moment(this.state.dt_nascimento, dateFormatList[0])} format={dateFormatList}
-                      onChange={(e) => { if (e !== null) { this.setState({ 'dt_nascimento': this.convertData(e._d) }) } }} />
+                    <DatePicker  defaultValue={moment(this.state.dt_nascimento, dateFormat)} format={dateFormat} 
+                    onChange={(e) => { (e != null) ?this.setState({ "dt_nascimento": moment(e) }) :this.setState({ "dt_nascimento": "" })}} />
                   </th>
 
                   <th>
                     Data Admissão:<br />
-                    <DatePicker format={dateFormatList}
-                      defaultValue={moment(this.state.dt_admissao, dateFormatList[0])} format={dateFormatList}
-                      onChange={(e) => { if (e !== null) { this.setState({ 'dt_admissao': this.convertData(e._d) }) } }} />
+                    <DatePicker  defaultValue={moment(this.state.dt_admissao, dateFormat)} format={dateFormat} 
+                    onChange={(e) => { (e != null) ?this.setState({ "dt_admissao": moment(e) }) :this.setState({ "dt_admissao": "" })}} />
                   </th>
                   <th>
                     Data Desligamento:<br />
-                    <DatePicker format={dateFormatList}
-                      defaultValue={moment(this.state.dt_desligamento, dateFormatList[0])} format={dateFormatList}
-                      onChange={(e) => { if (e !== null) { this.setState({ 'dt_desligamento': this.convertData(e._d) }) } }} />
+                    <DatePicker defaultValue={moment(this.state.dt_desligamento, dateFormat)} format={dateFormat} 
+                    onChange={(e) => { (e != null) ?this.setState({ "dt_desligamento": moment(e) }) :this.setState({ "dt_desligamento": "" })}} />
                   </th>
                 </tr>
                 <tr>

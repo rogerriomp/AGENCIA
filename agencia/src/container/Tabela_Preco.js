@@ -115,6 +115,7 @@ class TabelaPreco extends React.Component {
           width={600}
           title="Tabela de Preços"
           visible={this.state.visible}
+          onCancel={() => this.props.callback({ 'cadastrar_tabela': false })}
           footer={[
             <Button key="back" onClick={() => this.props.callback({ 'cadastrar_tabela': false })}>
               Cancelar

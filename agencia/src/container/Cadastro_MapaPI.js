@@ -323,8 +323,7 @@ class Tabela2 extends React.Component {
     })
       .then((r) => r.json())
       .then((json) => {
-        if ('id_mapa_pi' in json) {
-          this.setState({ 'cod_mapa_pi': json.id_mapa_pi })
+        if ('return' in json) {
           alert("Mapa cadastrado com sucesso!")
           this.props.callbackModal({ 'novo': false })
         } if ('msg' in json) {
@@ -567,6 +566,7 @@ class Tabela2 extends React.Component {
           width={1000}
           title="Cadastro de Mapa de Programação"
           visible={this.state.visible}
+          onCancel={(e)=>this.CloseModal()}
           footer={[
             <Button key="back" onClick={(e) => this.CloseModal()}>
               Cancelar
@@ -591,6 +591,7 @@ class Tabela2 extends React.Component {
                     Emissão: <br />
                     <DatePicker format={dateFormatList}
                       defaultValue={moment(this.state.dt_emissao, dateFormat)} format={dateFormat}
+                      onChange={(e) => { (e != null) ?this.setState({ "dt_emissao": moment(e) }) :this.setState({ "dt_emissao": "" })}} 
                     />
                   </th>
                 </tr>
@@ -624,7 +625,8 @@ class Tabela2 extends React.Component {
                   <th>
                     Ano: <br />
                     <DatePicker
-                      defaultValue={moment(this.state.year, yearFormat)} format={yearFormat} picker="year" />
+                      defaultValue={moment(this.state.year, yearFormat)} format={yearFormat} picker="year" 
+                      onChange={(e) => { (e != null) ?this.setState({ "year": moment(e) }) :this.setState({ "year": "" })}} />
                   </th>
                 </tr>
               </table>
@@ -1096,6 +1098,7 @@ class Tabela2 extends React.Component {
                     Vencimento: <br />
                     <DatePicker format={dateFormatList}
                       defaultValue={moment(this.state.dt_vencimento, dateFormat)} format={dateFormat}
+                      onChange={(e) => { (e != null) ?this.setState({ "dt_vencimento": moment(e) }) :this.setState({ "dt_vencimento": "" })}}
                     />
                   </th>
                 </tr>

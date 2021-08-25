@@ -194,6 +194,7 @@ class PesquisaMapaPI extends React.Component {
           width={600}
           title="Pesquisa Mapa/PI"
           visible={this.state.visible}
+          onCancel={(e)=>this.CloseModal()}
           footer={[
             <Button key="back" onClick={() => { this.CloseModal() }}>
               Cancelar

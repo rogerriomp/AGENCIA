@@ -22,7 +22,7 @@ class CadVeiculos extends React.Component {
     this.state = {
         visible: false,
         select_permission: undefined,
-        dt_cadastro: '01/01/2020',
+        dt_cadastro: new Date(),
 
 
         id: '',
@@ -271,6 +271,7 @@ console.log("Dados de cadastro: ", dados_cadastro)
           width={700}
           title="Cadastro de Veículos"
           visible={this.state.visible}
+          onCancel={(e)=>this.CloseModal()}
           footer={[
             <Button key="back" onClick={(e)=>this.CloseModal()}>
               Cancelar

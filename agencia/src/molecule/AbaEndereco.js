@@ -141,7 +141,7 @@ class AbaEndereco extends React.Component {
         <table>
           <tr>
             <th>
-              <b>CEP::</b>
+              <b>CEP:</b>
               <Input
                 placeholder="CEP"
                 defaultValue={this.state.cep}

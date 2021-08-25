@@ -124,7 +124,7 @@ class Formulario_Iprev extends React.Component {
 <table>
                     <tr>
                         <th>
-                        <b>CEP::</b> 
+                        <b>CEP:</b> 
               <Input placeholder="CEP" />
                             </th>
                         </tr>

@@ -119,6 +119,13 @@ class PesqTabPreco extends React.Component {
       })
     this.setState({ 'data': newData })
   }
+  CloseModal(){
+
+    this.props.history.push('/')
+    this.setState({
+      visible: false,
+    });
+  } 
   render() {
 
     const { loading, selectedRowKeys } = this.state;
@@ -135,8 +142,9 @@ class PesqTabPreco extends React.Component {
           width={600}
           title="Pesquisa Tabela de Preços"
           visible={this.state.visible}
+          onCancel={(e)=>this.CloseModal()}
           footer={[
-            <Button key="back" onClick={console.log()}>
+            <Button key="back" onClick={(e)=>this.CloseModal()}>
               Cancelar
             </Button>,
             <Button key="Cadastrar" type="primary" onClick={() => this.Update({ 'cadastrar_tabela': true })}>

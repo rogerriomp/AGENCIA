@@ -206,6 +206,7 @@ this.editar = this.editar.bind(this)
                            width={600}
                            title="Pesquisa Funcionarios"
                            visible={this.state.visible}
+                           onCancel={(e)=>this.CloseModal()}
                            footer={[
                                <Button key="back" onClick={()=>{this.CloseModal()}}>
                                    Cancelar

@@ -46,7 +46,7 @@ class CadAnunciantes extends React.Component {
         cod_cont:"", 
         nome_red: "",
         cidade_red: "",
-        dt_cadastro: "",
+        dt_cadastro: new Date(),
         botao: "Editar",
 
 
@@ -239,8 +239,9 @@ class CadAnunciantes extends React.Component {
                        width={700}
                        title="Cadastro de Anunciantes"
                        visible={this.state.visible}
+                       onCancel={(e)=>this.CloseModal()}
                        footer={[
-                           <Button key="back" onClick={console.log()}>
+                           <Button key="back"  onClick={(e) => this.CloseModal()}>
                                Cancelar
                      </Button>,
                            <Button key="Cadastrar" type="primary" onClick={this.cadastrar}>

@@ -20,7 +20,7 @@ class CadastroAgencia extends React.Component {
     this.state = {
       visible: false,
       select_permission: undefined,
-      dt_cadastro: '01/01/2020',
+      dt_cadastro: new Date(),
 
       id: "",
       nome: "",
@@ -231,6 +231,7 @@ class CadastroAgencia extends React.Component {
           width={600}
           title="Cadastro de Agências"
           visible={this.state.visible}
+          onCancel={(e)=>this.CloseModal()}
           footer={[
             <Button key="back" onClick={(e) => this.CloseModal()}>
               Cancelar
