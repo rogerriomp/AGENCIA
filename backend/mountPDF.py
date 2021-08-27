@@ -178,6 +178,35 @@ print(GeraTabelahtml(25))
 
 
 
+def SeparaDocs(df):
+    dict_result = dict()
+    string_tag_list = list()
+    list_uf = list(df.estado)
+    for uf in list_uf:
+        tag_temp = list()
+        tamanho = len(df[df.estado == uf])
+        for idx, linha in df[df.estado == uf].iterrows():
+            if (idx % 2) == 0:
+                bg = """<tr>"""
+            else:
+                bg = """<tr style="background:#d9e2f3">"""
+
+            t = bg + "<th>{cidade}</th><th>{veiculo}</th><th>{trinta}</th><th>{sessenta}</th><th>{quinze}</th></tr>".format(
+                cidade=linha.cidade, veiculo=linha.fantasia, trinta=linha["30"], sessenta=linha["60"],
+                quinze=linha["15"])
+            tag_temp.append(t)
+
+        first = tag_temp[0]
+        tag_temp[0] = first.replace("<tr>",
+                                    """<tr><th style='text-align:center;vertical-align:middle;writing-mode: tb-rl;transform: rotate(-180deg);' ROWSPAN="{tamanho}">{cidade}</th>""".format(
+                                        tamanho=tamanho, cidade=uf))
+        string_tag_list = string_tag_list + tag_temp
+    return None
+
+
+#for est in ['São Paulo', 'Rio Grande do Sul', 'Paraná']:
+#    for i in range(0,100):
+
 
 
 # string = list()

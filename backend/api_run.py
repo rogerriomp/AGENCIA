@@ -339,11 +339,11 @@ def criatabelapreco(dt_inicio,dt_fim,tp_veiculo):
 
 #Envia tabela de preço pdf
 
-@app.route('/show/tb_preco-pdf/<string:id_empresa>/<string:id_tb>')
-def show_static_pdf(id_empresa, id_tb):
-    file_name = mountPDF.CriaPdf(id_empresa, id_tb)
-    return send_file(file_name, mimetype='application/x-pdf', attachment_filename='Tabela_preco.pdf',
-              as_attachment=True)
+# @app.route('/show/tb_preco-pdf/<string:id_empresa>/<string:id_tb>')
+# def show_static_pdf(id_empresa, id_tb):
+#     file_name = mountPDF.CriaPdf(id_empresa, id_tb)
+#     return send_file(file_name, mimetype='application/x-pdf', attachment_filename='Tabela_preco.pdf',
+#               as_attachment=True)
 
 #Rotas de autenticação e validação
 @app.route('/auth', methods=['GET', 'POST'])
