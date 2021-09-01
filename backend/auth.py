@@ -61,7 +61,7 @@ and cpf ='"""+str(usr)+"'"
         if senha == password:
             token = Geratoken(cpf)
             permissoes = permissoes
-            resultado = {'nome': nome, 'cpf': cpf, 'token': token, 'permissoes': permissoes}
+            resultado = {'nome': nome, 'cpf': cpf, 'token': str(token), 'permissoes': permissoes}
         else:
             resultado = {'msg': 'Usuário ou senha incorretos'}
     else:

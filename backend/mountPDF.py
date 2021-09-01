@@ -174,7 +174,7 @@ def GeraTabelahtml(id_tabela):
 
     return capa_dir[1]+"/report.pdf"
 
-print(GeraTabelahtml(25))
+#print(GeraTabelahtml(25))
 
 
 
