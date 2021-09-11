@@ -267,9 +267,7 @@ class Tabela2 extends React.Component {
   }
 
   CloseModal() {
-    this.setState({ 'visible': false })
-    this.props.callbackModal({ 'editar': false })
-    this.props.callbackModal({ 'novo': false })
+    this.props.closeModal();
   }
 
   cadastrar() {
@@ -278,7 +276,7 @@ class Tabela2 extends React.Component {
       'numero_agencia': this.state.numero_agencia,
       'dt_emissao': moment(this.state.dt_emissao).format(dateFormat),
       'periodo': this.state.periodo,
-      'ano' : moment(this.state.year).format(yearFormat),
+      'ano': moment(this.state.year).format(yearFormat),
       'cod_agencia': this.state.agencia,
       'cod_anunciante': this.state.anunciante,
       'cod_veiculo': this.state.veiculo,
@@ -286,9 +284,9 @@ class Tabela2 extends React.Component {
       'colocacoes': this.state.dataSource,
       'campanha': this.state.campanha,
       'produto': this.state.produto,
-      'titulo' : this.state.titulo,
+      'titulo': this.state.titulo,
       'dt_vencimento': moment(this.state.dt_vencimento).format(dateFormat),
-      'observacao' : this.state.observacao,
+      'observacao': this.state.observacao,
       'nota_fiscal': this.state.nota_fiscal,
       'saac': this.state.saac,
       'empenho': this.state.empenho,
@@ -296,20 +294,20 @@ class Tabela2 extends React.Component {
       'fat_veiculo': this.state.faturamento_veiculo,
       'mapa_prog': this.state.mapa_de_programacao,
       'imprimir': this.state.imprimir,
-      'faturar' : this.state.faturar,
-      'valor_total' : this.state.valor_total,
-      'valor_bruto' : this.state.valor_bruto,
-      'comissao_ag' : this.state.comissao,
-      'valor_comissao' : this.state.valor_comissao,
-      'valor_normal' : this.state.valor_normal,
-      'comissao' : this.state.comissao_normal,
-      'valor_comissao_normal' : this.state.valor_comissao_normal,
-      'valor_liquido' : this.state.valor_liquido,
+      'faturar': this.state.faturar,
+      'valor_total': this.state.valor_total,
+      'valor_bruto': this.state.valor_bruto,
+      'comissao_ag': this.state.comissao,
+      'valor_comissao': this.state.valor_comissao,
+      'valor_normal': this.state.valor_normal,
+      'comissao': this.state.comissao_normal,
+      'valor_comissao_normal': this.state.valor_comissao_normal,
+      'valor_liquido': this.state.valor_liquido,
     }
-    
+
     console.log(JSON.stringify({
       'cadastro_mapa': dados_cadastro,
-    })) 
+    }))
 
     fetch('/api/cadastromapapi', {
       method: 'POST',
@@ -439,6 +437,7 @@ class Tabela2 extends React.Component {
 
 
   render() {
+    const shouldBeVisible = this.props.visible;
     const { loading, selectedRows, dataSource } = this.state;
     const rowSelection = {
       selectedRows,
@@ -565,13 +564,13 @@ class Tabela2 extends React.Component {
         <Modal
           width={1000}
           title="Cadastro de Mapa de Programação"
-          visible={this.state.visible}
-          onCancel={(e)=>this.CloseModal()}
+          visible={shouldBeVisible}
+          onCancel={(e) => this.CloseModal()}
           footer={[
             <Button key="back" onClick={(e) => this.CloseModal()}>
               Cancelar
             </Button>,
-            <Button key="Cadastrar" type="primary" onClick={(e) =>this.cadastrar()}>
+            <Button key="Cadastrar" type="primary" onClick={(e) => this.cadastrar()}>
               Cadastrar
             </Button>,
           ]}>
@@ -591,7 +590,7 @@ class Tabela2 extends React.Component {
                     Emissão: <br />
                     <DatePicker format={dateFormatList}
                       defaultValue={moment(this.state.dt_emissao, dateFormat)} format={dateFormat}
-                      onChange={(e) => { (e != null) ?this.setState({ "dt_emissao": moment(e) }) :this.setState({ "dt_emissao": "" })}} 
+                      onChange={(e) => { (e != null) ? this.setState({ "dt_emissao": moment(e) }) : this.setState({ "dt_emissao": "" }) }}
                     />
                   </th>
                 </tr>
@@ -625,8 +624,8 @@ class Tabela2 extends React.Component {
                   <th>
                     Ano: <br />
                     <DatePicker
-                      defaultValue={moment(this.state.year, yearFormat)} format={yearFormat} picker="year" 
-                      onChange={(e) => { (e != null) ?this.setState({ "year": moment(e) }) :this.setState({ "year": "" })}} />
+                      defaultValue={moment(this.state.year, yearFormat)} format={yearFormat} picker="year"
+                      onChange={(e) => { (e != null) ? this.setState({ "year": moment(e) }) : this.setState({ "year": "" }) }} />
                   </th>
                 </tr>
               </table>
@@ -1098,7 +1097,7 @@ class Tabela2 extends React.Component {
                     Vencimento: <br />
                     <DatePicker format={dateFormatList}
                       defaultValue={moment(this.state.dt_vencimento, dateFormat)} format={dateFormat}
-                      onChange={(e) => { (e != null) ?this.setState({ "dt_vencimento": moment(e) }) :this.setState({ "dt_vencimento": "" })}}
+                      onChange={(e) => { (e != null) ? this.setState({ "dt_vencimento": moment(e) }) : this.setState({ "dt_vencimento": "" }) }}
                     />
                   </th>
                 </tr>

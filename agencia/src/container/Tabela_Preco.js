@@ -1,18 +1,15 @@
-import React, { Component, Image } from 'react';
-import { Link, BrowserRouter } from 'react-router-dom'
-import { Modal, Button, Select, Tabs, AutoComplete, Upload, message } from 'antd';
+import React from 'react';
+import { Modal, Button, Select, Upload, message } from 'antd';
 import { Input } from 'antd';
-import { isCPF, formatToCPF, formatToPhone } from 'brazilian-values';
+import moment from 'moment';
+
 
 import { InboxOutlined } from '@ant-design/icons';
 const { Dragger } = Upload;
 
 const dateFormat = 'DD/MM/YYYY';
-const monthFormat = 'YYYY/MM';
-const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
-const { TabPane } = Tabs;
+const dateFormatEn = 'YYYY-MM-DD';
 const { Option } = Select;
-const { TextArea } = Input;
 
 const children = [];
 
@@ -20,74 +17,24 @@ children.push(<Option key="1">Rádio</Option>);
 children.push(<Option key="2">Jornal</Option>);
 children.push(<Option key="3">Outros</Option>);
 
-
-
 class TabelaPreco extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       visible: true,
       select_permission: undefined,
-      mapas: [],
       mapa: "",
       photo: "",
     }
 
   }
-  handleChange(value) {
-    console.log(`selected ${value}`);
-  }
-
-
 
   render() {
 
-    const onSelectMapas = (value, option) => {
-      this.setState({ mapa: option.key })
-    };
-
-    const handleSearchMapas = (value) => {
-      this.setState({
-        mapas: new Array("JANEIRO - 2020", "DEZEMBRO - 2021", "FEVERIRO - 2019").map((value, id) => {
-          return {
-            key: id,
-            value: value,
-          };
-        })
-      })
-      // fetch('/api/consulta_mapapi', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Accept': 'application/json',
-      //     'Content-Type': 'application/json'
-      //   },
-      //   body: JSON.stringify({
-      //     'consulta_anunciante': { 'nome': value },
-      //   })
-      // })
-      //   .then((r) => r.json())
-      //   .then((json) => {
-      //     var dados = json.anunciantes.map(anunciante => {
-      //       return {
-      //         value: anunciante.key + ' - ' + anunciante.nome,
-      //         key: anunciante.key,
-      //         label: (
-      //           <div
-      //             style={{
-      //               display: 'flex',
-      //               justifyContent: 'space-between',
-      //             }}
-      //           >
-      //             <span>
-      //               {anunciante.nome}
-      //             </span>
-      //           </div>
-      //         ),
-      //       }
-      //     });
-
-      //     this.setState({ anunciantes: dados })
-      //   })
+    const { selectedRowKeys } = this.state;
+    const rowSelection = {
+      selectedRowKeys,
+      onChange: this.onSelectChange,
     };
 
     const onChange = (info) => {
@@ -211,25 +158,6 @@ class TabelaPreco extends React.Component {
                   {children}
                 </Select>
 
-              </th>
-            </tr>
-            <tr>
-
-              <th>
-                Mapa/PI:
-              </th>
-              <th>
-
-                <AutoComplete
-                  dropdownMatchSelectWidth={252}
-                  style={{
-                    width: 310,
-                  }}
-                  options={this.state.mapas}
-                  onSelect={onSelectMapas}
-                  onSearch={handleSearchMapas}>
-                  <Input.Search size="large" placeholder="Mapa/PI" enterButton />
-                </AutoComplete>
               </th>
             </tr>
           </table>

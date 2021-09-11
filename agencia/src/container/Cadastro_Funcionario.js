@@ -7,6 +7,7 @@ import AbaEndereco from '../molecule/AbaEndereco'
 import HistFunc from '/Users/gucarvalho/go/src/github.com/aquino/AGENCIA/agencia/src/container/Historico'
 import moment from 'moment';
 const dateFormat = 'DD/MM/YYYY';
+const dateFormatBackend = 'YYYY-MM-DD';
 
 const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
 
@@ -19,9 +20,6 @@ class CadFuncionario extends React.Component {
     this.state = {
       visible: false,
       select_permission: undefined,
-      nascimento: '05/09/1964',
-      admissao: '05/09/1964',
-      desligamento: '05/09/1964',
       cod_funcionario: undefined,
 
       id: "",
@@ -68,85 +66,124 @@ class CadFuncionario extends React.Component {
     this.GeraSenha = this.GeraSenha.bind(this)
   }
   componentDidMount() {
+    if (this.props.funcionario !== undefined) {this.setState({ id: this.props.funcionario.id })
+    this.setState({ nome: this.props.funcionario.nome })
+    this.setState({ funcao: this.props.funcionario.funcao })
+    this.setState({ email: this.props.funcionario.email })
+    this.setState({ telefone: this.props.funcionario.telefone })
+    this.setState({ tp_acesso: this.props.funcionario.tp_acesso })
+    this.setState({ observacao: this.props.funcionario.obs })
+    this.setState({ cep: this.props.funcionario.cep })
+    this.setState({ rua: this.props.funcionario.rua })
+    this.setState({ bairro: this.props.funcionario.bairro })
+    this.setState({ cod_cidade: this.props.funcionario.cod_cidade })
+    this.setState({ uf: this.props.funcionario.estado })
+    this.setState({ complemento: this.props.funcionario.complemento })
+    this.setState({ rg: this.props.funcionario.rg })
+    this.setState({ cpf: this.props.funcionario.cpf })
+    this.setState({ ctps: this.props.funcionario.ctps })
+    this.setState({ reservista: this.props.funcionario.reservista })
+    this.setState({ titulo: this.props.funcionario.titulo })
+    this.setState({ dt_nascimento: (this.props.funcionario.dt_nascimento!== "")?moment(this.props.funcionario.dt_nascimento):"" })
+    this.setState({ dt_admissao: (this.props.funcionario.dt_admissao!== "")?moment(this.props.funcionario.dt_admissao):"" })
+    this.setState({ dt_desligamento: (this.props.funcionario.dt_desligamento!== "")?moment(this.props.funcionario.dt_desligamento):"" })
+    this.setState({ status: this.props.funcionario.status })
+    this.setState({ genero: this.props.funcionario.genero })
+    this.setState({ banco: this.props.funcionario.banco })
+    this.setState({ agencia: this.props.funcionario.agencia })
+    this.setState({ conta: this.props.funcionario.conta })
+    this.setState({ tp_conta: this.props.funcionario.tp_conta })
 
+    let dados = {
+      id_funcionario: this.props.funcionario.id,
+      cep: this.props.funcionario.cep,
+      rua: this.props.funcionario.rua,
+      bairro: this.props.funcionario.bairro,
+      cod_cidade: this.props.funcionario.cod_cidade,
+      uf: this.props.funcionario.estado,
+      complemento: this.props.funcionario.complemento,
+    }
+    localStorage.setItem('aba_endereco', JSON.stringify(dados))
+    this.setState({ aba_endereco: dados })
+    this.setState({ botao: "Editar" })
+    }else{
+      this.setState({ botao: "Cadastrar" })
+    }
+  }
+  mount() {
     if (this.props.funcionario !== undefined) {
-      console.log("cod_funcionario: que chegou", this.props.funcionario)
-      fetch('/api/carregadadosfuncionario', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          'consulta_funcionario': this.props.funcionario
-        })
-      })
-        .then((r) => r.json())
-        .then((json) => {
-
-
-          if ('resultado' in json) {
-            // console.log(json.resultado)
-
-            this.setState({ id: json.resultado.id })
-            this.setState({ nome: json.resultado.nome })
-            this.setState({ funcao: json.resultado.funcao })
-            this.setState({ email: json.resultado.email })
-            this.setState({ telefone: json.resultado.telefone })
-            this.setState({ tp_acesso: json.resultado.tp_acesso })
-            this.setState({ observacao: json.resultado.obs })
-            this.setState({ cep: json.resultado.cep })
-            this.setState({ rua: json.resultado.rua })
-            this.setState({ bairro: json.resultado.bairro })
-            this.setState({ cod_cidade: json.resultado.cod_cidade })
-            this.setState({ uf: json.resultado.estado })
-            this.setState({ complemento: json.resultado.complemento })
-            this.setState({ rg: json.resultado.rg })
-            this.setState({ cpf: json.resultado.cpf })
-            this.setState({ ctps: json.resultado.ctps })
-            this.setState({ reservista: json.resultado.reservista })
-            this.setState({ titulo: json.resultado.titulo })
-            this.setState({ dt_nascimento: json.resultado.dt_nascimento })
-            this.setState({ dt_admissao: json.resultado.dt_admissao })
-            this.setState({ dt_desligamento: json.resultado.dt_desligamento })
-            this.setState({ status: json.resultado.status })
-            this.setState({ genero: json.resultado.genero })
-            this.setState({ banco: json.resultado.banco })
-            this.setState({ agencia: json.resultado.agencia })
-            this.setState({ conta: json.resultado.conta })
-            this.setState({ tp_conta: json.resultado.tp_conta })
-
-
+            this.state.id=this.props.funcionario.id
+            this.state.nome=this.props.funcionario.nome
+            this.state.funcao=this.props.funcionario.funcao
+            this.state.email=this.props.funcionario.email
+            this.state.telefone=this.props.funcionario.telefone
+            this.state.tp_acesso=this.props.funcionario.tp_acesso
+            this.state.observacao=this.props.funcionario.obs
+            this.state.cep=this.props.funcionario.cep
+            this.state.rua=this.props.funcionario.rua
+            this.state.bairro=this.props.funcionario.bairro
+            this.state.cod_cidade=this.props.funcionario.cod_cidade
+            this.state.uf=this.props.funcionario.estado
+            this.state.complemento=this.props.funcionario.complemento
+            this.state.rg=this.props.funcionario.rg
+            this.state.cpf=this.props.funcionario.cpf
+            this.state.ctps=this.props.funcionario.ctps
+            this.state.reservista=this.props.funcionario.reservista
+            this.state.titulo=this.props.funcionario.titulo
+            this.state.dt_nascimento=(this.props.funcionario.dt_nascimento!== "")?moment(this.props.funcionario.dt_nascimento):""
+            this.state.dt_admissao=(this.props.funcionario.dt_admissao!== "")?moment(this.props.funcionario.dt_admissao):""
+            this.state.dt_desligamento=(this.props.funcionario.dt_desligamento!== "")?moment(this.props.funcionario.dt_desligamento):""
+            this.state.status=this.props.funcionario.status
+            this.state.genero=this.props.funcionario.genero
+            this.state.banco=this.props.funcionario.banco
+            this.state.agencia=this.props.funcionario.agencia
+            this.state.conta=this.props.funcionario.conta
+            this.state.tp_conta=this.props.funcionario.tp_conta
 
             let dados = {
-              id_funcionario: json.resultado.id,
-              cep: json.resultado.cep,
-              rua: json.resultado.rua,
-              bairro: json.resultado.bairro,
-              cod_cidade: json.resultado.cod_cidade,
-              uf: json.resultado.estado,
-              complemento: json.resultado.complemento,
+              id_funcionario: this.props.funcionario.id,
+              cep: this.props.funcionario.cep,
+              rua: this.props.funcionario.rua,
+              bairro: this.props.funcionario.bairro,
+              cod_cidade: this.props.funcionario.cod_cidade,
+              uf: this.props.funcionario.estado,
+              complemento: this.props.funcionario.complemento,
             }
             localStorage.setItem('aba_endereco', JSON.stringify(dados))
-            this.setState({ aba_endereco: dados })
+            this.state.aba_endereco=dados
 
-            this.setState({ 'visible': true })
-
-
-          } else {
-            alert(json)
-          }
-
-
-        })
-
+            this.state.botao="Editar"
     } else {
-      this.setState({ botao: "Cadastrar" })
-      this.setState({ visible: true })
+      this.state.id=""
+      this.state.nome=""
+      this.state.funcao=""
+      this.state.email=""
+      this.state.telefone=""
+      this.state.tp_acesso=""
+      this.state.observacao=""
+      this.state.cep=""
+      this.state.rua=""
+      this.state.bairro=""
+      this.state.cod_cidade=""
+      this.state.uf=""
+      this.state.complemento=""
+      this.state.rg=""
+      this.state.cpf=""
+      this.state.ctps=""
+      this.state.reservista=""
+      this.state.titulo=""
+      this.state.dt_nascimento=new Date()
+      this.state.dt_admissao=new Date()
+      this.state.dt_desligamento=new Date()
+      this.state.status=""
+      this.state.genero=""
+      this.state.banco=""
+      this.state.agencia=""
+      this.state.conta=""
+      this.state.tp_conta=""
+      this.state.aba_endereco={}
+      this.state.botao="Cadastrar"
     }
-
-
-
   }
 
 
@@ -154,9 +191,7 @@ class CadFuncionario extends React.Component {
 
 
   CloseModal() {
-    this.setState({ 'visible': false })
-    this.props.callbackModal({ 'editar': false })
-    this.props.callbackModal({ 'novo': false })
+    this.props.closeModal();
   }
 
 
@@ -173,15 +208,13 @@ class CadFuncionario extends React.Component {
     return [day, mnth, date.getFullYear()].join("/");
   }
   cadastrar() {
-
-
     let dados_cadastro = {
       'id': this.state.id,
       'nome': this.state.nome,
       'cpf': this.state.cpf,
       'rg': this.state.rg,
       'tp_acesso': this.state.tp_acesso,
-      'status': this.state.status,
+      'status': this.state.status.value,
       'email': this.state.email,
       'telefone': this.state.telefone,
       'obs': this.state.observacao,
@@ -189,9 +222,9 @@ class CadFuncionario extends React.Component {
       'ctps': this.state.ctps,
       'reservista': this.state.reservista,
       'titulo': this.state.titulo,
-      'dt_nascimento': moment(this.state.dt_nascimento).format(dateFormat),
-      'dt_admissao': moment(this.state.dt_admissao).format(dateFormat),
-      'dt_desligamento': moment(this.state.dt_desligamento).format(dateFormat),
+      'dt_nascimento': moment(this.state.dt_nascimento).format(dateFormatBackend),
+      'dt_admissao': moment(this.state.dt_admissao).format(dateFormatBackend),
+      'dt_desligamento': this.state.dt_desligamento != "" ? moment(this.state.dt_desligamento).format(dateFormatBackend): "",
       'genero': this.state.genero,
       'cep': this.state.cep,
       'cod_cidade': this.state.cod_cidade,
@@ -251,8 +284,8 @@ class CadFuncionario extends React.Component {
       .then((json) => {
 
         if ('resultado' in json) {
-          this.setState({ 'id': json.resultado.id_funcionario })
-          alert(json.resultado)
+          this.setState({ 'id': this.props.funcionario.id_funcionario })
+          alert(this.props.funcionario)
         } else {
           alert(json)
         }
@@ -271,13 +304,17 @@ class CadFuncionario extends React.Component {
 
 
   render() {
+    const shouldBeVisible = this.props.visible;
+    if(this.props.visible){
+      this.mount()
+    }
     return (
       <div>
         <Modal
           width={700}
           title="Cadastro de Funcionários"
-          visible={this.state.visible}
-          onCancel={(e)=>this.CloseModal()}
+          visible={shouldBeVisible}
+          onCancel={(e) => this.CloseModal()}
           footer={[
             <Button key="back" onClick={(e) => this.CloseModal()}>
               Cancelar
@@ -287,7 +324,7 @@ class CadFuncionario extends React.Component {
             </Button>,
           ]}
         >
-          <Tabs onChange={console.log()} type="card">
+          <Tabs  type="card">
             <TabPane tab="Dados do Funcionário" key="1">
               <table>
                 <tr>
@@ -426,19 +463,19 @@ class CadFuncionario extends React.Component {
 
                   <th>
                     Data de Nascimento:<br />
-                    <DatePicker  defaultValue={moment(this.state.dt_nascimento, dateFormat)} format={dateFormat} 
-                    onChange={(e) => { (e != null) ?this.setState({ "dt_nascimento": moment(e) }) :this.setState({ "dt_nascimento": "" })}} />
+                    <DatePicker defaultValue={moment(this.state.dt_nascimento, dateFormat)} format={dateFormat}
+                      onChange={(e) => { (e != null) ? this.setState({ "dt_nascimento": moment(e) }) : this.setState({ "dt_nascimento": "" }) }} />
                   </th>
 
                   <th>
                     Data Admissão:<br />
-                    <DatePicker  defaultValue={moment(this.state.dt_admissao, dateFormat)} format={dateFormat} 
-                    onChange={(e) => { (e != null) ?this.setState({ "dt_admissao": moment(e) }) :this.setState({ "dt_admissao": "" })}} />
+                    <DatePicker defaultValue={moment(this.state.dt_admissao, dateFormat)} format={dateFormat}
+                      onChange={(e) => { (e != null) ? this.setState({ "dt_admissao": moment(e) }) : this.setState({ "dt_admissao": "" }) }} />
                   </th>
                   <th>
                     Data Desligamento:<br />
-                    <DatePicker defaultValue={moment(this.state.dt_desligamento, dateFormat)} format={dateFormat} 
-                    onChange={(e) => { (e != null) ?this.setState({ "dt_desligamento": moment(e) }) :this.setState({ "dt_desligamento": "" })}} />
+                    <DatePicker defaultValue={moment(this.state.dt_desligamento, dateFormat)} format={dateFormat}
+                      onChange={(e) => { (e != null) ? this.setState({ "dt_desligamento": moment(e) }) : this.setState({ "dt_desligamento": "" }) }} />
                   </th>
                 </tr>
                 <tr>
@@ -517,14 +554,6 @@ class CadFuncionario extends React.Component {
 
               </table>
             </TabPane>
-
-
-            {/* <TabPane tab="Histórico" key="5">
-
-                <HistFunc/>
-
-              </TabPane> */}
-
           </Tabs>
         </Modal>
 

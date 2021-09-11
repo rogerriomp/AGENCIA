@@ -130,10 +130,7 @@ class CadastroAgencia extends React.Component {
   }
 
   CloseModal() {
-
-    this.setState({
-      visible: false,
-    });
+    this.props.closeModal();
   }
 
 
@@ -225,13 +222,14 @@ class CadastroAgencia extends React.Component {
 
 
   render() {
+    const shouldBeVisible = this.props.visible;
     return (
       <div>
         <Modal
           width={600}
           title="Cadastro de Agências"
-          visible={this.state.visible}
-          onCancel={(e)=>this.CloseModal()}
+          visible={shouldBeVisible}
+          onCancel={(e) => this.CloseModal()}
           footer={[
             <Button key="back" onClick={(e) => this.CloseModal()}>
               Cancelar

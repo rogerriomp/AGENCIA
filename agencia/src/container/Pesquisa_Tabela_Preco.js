@@ -28,7 +28,7 @@ const columns = [
   },
 ];
 
-function getTpVeiculo(e){
+function getTpVeiculo(e) {
   if (e === "1") {
     return "Rádio"
   }
@@ -39,14 +39,13 @@ function getTpVeiculo(e){
     return "Outros"
   }
 }
-function getFullDate(e){
+function getFullDate(e) {
   return moment(e).format(dateFormat)
 }
 class PesqTabPreco extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      visible: true,
       select_permission: undefined,
       cadastrar_tabela: false,
       selectedRowKeys: [], // Check here to configure the default column
@@ -59,8 +58,8 @@ class PesqTabPreco extends React.Component {
     this.Update = this.Update.bind(this)
     this.start = this.start.bind(this)
     this.onSelectChange = this.onSelectChange.bind(this)
-
   }
+
   Update(e) {
     this.setState(e)
   }
@@ -86,24 +85,24 @@ class PesqTabPreco extends React.Component {
     let dt_fim = this.state.dt_fim
     let momentInicio, momentFim
 
-    if (dt_inicio != ""){
-      momentInicio= moment(this.state.dt_inicio, dateFormatMonth).startOf('month')
+    if (dt_inicio != "") {
+      momentInicio = moment(this.state.dt_inicio, dateFormatMonth).startOf('month')
       dt_inicio = momentInicio.format(dateFormatEn);
-    }else{
+    } else {
       alert("Para efetuar a busca é necessário selecionar uma data de início")
     }
-    if (dt_fim != ""){
+    if (dt_fim != "") {
       momentFim = moment(this.state.dt_fim, dateFormatMonth).endOf('month')
       dt_fim = momentFim.format(dateFormatEn);
-    }else{
+    } else {
       alert("Para efetuar a busca é necessário selecionar uma data final")
     }
 
-    if (momentInicio.isAfter(momentFim)){
+    if (momentInicio.isAfter(momentFim)) {
       alert("Para efetuar a busca é necessário que a data inicial seja anterior a data final")
     }
-    
-    let url = '/api/consultatbpreco/'+dt_inicio+"/"+dt_fim+"/"+this.state.tp_veiculo
+
+    let url = '/api/consultatbpreco/' + dt_inicio + "/" + dt_fim + "/" + this.state.tp_veiculo
 
     fetch(url, {
       method: 'GET',
@@ -114,20 +113,18 @@ class PesqTabPreco extends React.Component {
     })
       .then((r) => r.json())
       .then((json) => {
-        this.setState({'data':json.resultado})
+        this.setState({ 'data': json.resultado })
         console.log(this.state.data)
       })
     this.setState({ 'data': newData })
   }
-  CloseModal(){
 
-    this.props.history.push('/')
-    this.setState({
-      visible: false,
-    });
-  } 
+  CloseModal() {
+    this.props.closeModal();
+  }
+
   render() {
-
+    const shouldBeVisible = this.props.visible;
     const { loading, selectedRowKeys } = this.state;
     const rowSelection = {
       selectedRowKeys,
@@ -141,10 +138,10 @@ class PesqTabPreco extends React.Component {
         <Modal
           width={600}
           title="Pesquisa Tabela de Preços"
-          visible={this.state.visible}
-          onCancel={(e)=>this.CloseModal()}
+          visible={shouldBeVisible}
+          onCancel={(e) => this.CloseModal()}
           footer={[
-            <Button key="back" onClick={(e)=>this.CloseModal()}>
+            <Button key="back" onClick={(e) => this.CloseModal()}>
               Cancelar
             </Button>,
             <Button key="Cadastrar" type="primary" onClick={() => this.Update({ 'cadastrar_tabela': true })}>
@@ -160,34 +157,34 @@ class PesqTabPreco extends React.Component {
         >
           <div>
             <table>
-                <tr>
-                  <th>
-                    Data Inicial: <br />
-                    <DatePicker
-                      defaultValue={moment(this.state.dt_inicio, dateFormatMonth)} format={dateFormatMonth} picker="dt_inicio" 
-                      onChange={(e) => { (e != null) ?this.setState({ "dt_inicio": moment(e) }) :this.setState({ "dt_inicio": "" })}} />
-                  </th>
-                  <th>
-                    Data Final: <br />
-                    <DatePicker
-                      defaultValue={moment(this.state.dt_fim, dateFormatMonth)} format={dateFormatMonth} picker="dt_fim" 
-                      onChange={(e) => { (e != null) ?this.setState({ "dt_fim": moment(e) }) :this.setState({ "dt_fim": "" })}} />
-                  </th>
-                  <th>
+              <tr>
+                <th>
+                  Data Inicial: <br />
+                  <DatePicker
+                    defaultValue={moment(this.state.dt_inicio, dateFormatMonth)} format={dateFormatMonth} picker="dt_inicio"
+                    onChange={(e) => { (e != null) ? this.setState({ "dt_inicio": moment(e) }) : this.setState({ "dt_inicio": "" }) }} />
+                </th>
+                <th>
+                  Data Final: <br />
+                  <DatePicker
+                    defaultValue={moment(this.state.dt_fim, dateFormatMonth)} format={dateFormatMonth} picker="dt_fim"
+                    onChange={(e) => { (e != null) ? this.setState({ "dt_fim": moment(e) }) : this.setState({ "dt_fim": "" }) }} />
+                </th>
+                <th>
 
                   Tipo Veículo: <br />
                   <Select
-                      labelInValue
-                      defaultValue={{ value: this.state.tp_veiculo }}
-                      style={{ width: 190 }}
-                      onChange={(e) => { this.setState({ 'tp_veiculo': e.value }) }}
-                    >
-                      <Option value="1">Rádio</Option>
-                      <Option value="2">Jornal</Option>
-                      <Option value="3">Outros</Option>
-                    </Select>
-                  </th>
-                </tr>
+                    labelInValue
+                    defaultValue={{ value: this.state.tp_veiculo }}
+                    style={{ width: 190 }}
+                    onChange={(e) => { this.setState({ 'tp_veiculo': e.value }) }}
+                  >
+                    <Option value="1">Rádio</Option>
+                    <Option value="2">Jornal</Option>
+                    <Option value="3">Outros</Option>
+                  </Select>
+                </th>
+              </tr>
             </table>
             <div>
               <div style={{ marginBottom: 16 }}>
@@ -195,7 +192,8 @@ class PesqTabPreco extends React.Component {
                   {hasSelected ? `Selected ${this.state.selectedRowKeys.length} items` : ''}
                 </span>
               </div>
-              <Table rowSelection={rowSelection} columns={columns} dataSource={this.state.data} />
+              <Table rowSelection={rowSelection} columns={columns} dataSource={this.state.data}
+                rowKey={row => row.id} />
             </div>
           </div>
 

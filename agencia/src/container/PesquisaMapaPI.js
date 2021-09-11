@@ -11,25 +11,25 @@ const { Option } = Select;
 const columns = [
   {
     title: 'Número da Agência',
-    dataIndex: ['cadastro_mapa','numero_agencia'],
+    dataIndex: ['cadastro_mapa', 'numero_agencia'],
   },
   {
     title: 'Emissão',
-    dataIndex: ['cadastro_mapa','dt_emissao'],
+    dataIndex: ['cadastro_mapa', 'dt_emissao'],
     render: ((date) => getFullDate(date)),
   },
   {
     title: 'Período',
-    dataIndex: ['cadastro_mapa','periodo'],
+    dataIndex: ['cadastro_mapa', 'periodo'],
     render: ((date) => getPeriodo(date)),
   },
   {
     title: 'Ano',
-    dataIndex: ['cadastro_mapa','ano'],
+    dataIndex: ['cadastro_mapa', 'ano'],
   },
 ];
 
-function getPeriodo(e){
+function getPeriodo(e) {
   if (e === "1") {
     return "Janeiro"
   }
@@ -67,7 +67,7 @@ function getPeriodo(e){
     return "Dezembro"
   }
 }
-function getFullDate(e){
+function getFullDate(e) {
   return moment(e).format(dateFormat)
 }
 class PesquisaMapaPI extends React.Component {
@@ -130,10 +130,7 @@ class PesquisaMapaPI extends React.Component {
 
 
   CloseModal() {
-    this.props.history.push('/')
-    this.setState({
-      visible: false,
-    });
+    this.props.closeModal();
   }
 
   Consulta() {
@@ -142,23 +139,23 @@ class PesquisaMapaPI extends React.Component {
     let dt_fim = this.state.dt_fim
     let momentInicio, momentFim
 
-    if (dt_inicio != ""){
+    if (dt_inicio != "") {
       momentInicio = moment(this.state.dt_inicio, dateFormat)
       dt_inicio = momentInicio.format(dateFormatEn);
-    }else{
+    } else {
       alert("Para efetuar a busca é necessário selecionar uma data de início")
     }
-    if (dt_fim != ""){
+    if (dt_fim != "") {
       momentFim = moment(this.state.dt_fim, dateFormat)
       dt_fim = momentFim.format(dateFormatEn);
-    }else{
+    } else {
       alert("Para efetuar a busca é necessário selecionar uma data final")
     }
-    if (momentInicio.isAfter(momentFim)){
+    if (momentInicio.isAfter(momentFim)) {
       alert("Para efetuar a busca é necessário que a data inicial seja anterior a data final")
     }
-    
-    let url = '/api/consultamapapi/'+dt_inicio+"/"+dt_fim
+
+    let url = '/api/consultamapapi/' + dt_inicio + "/" + dt_fim
 
     fetch(url, {
       method: 'GET',
@@ -169,13 +166,15 @@ class PesquisaMapaPI extends React.Component {
     })
       .then((r) => r.json())
       .then((json) => {
-        this.setState({'data':json.resultado})
+        this.setState({ 'data': json.resultado })
         console.log(this.state.data)
       })
     this.setState({ 'data': newData })
   }
 
+  closeCadModal = () => this.setState({ 'novo': false, 'editar': false });
   render() {
+    const shouldBeVisible = this.props.visible;
     const { loading, selectedRowKeys } = this.state;
     const rowSelection = {
       selectedRowKeys,
@@ -193,8 +192,8 @@ class PesquisaMapaPI extends React.Component {
         <Modal
           width={600}
           title="Pesquisa Mapa/PI"
-          visible={this.state.visible}
-          onCancel={(e)=>this.CloseModal()}
+          visible={shouldBeVisible}
+          onCancel={(e) => this.CloseModal()}
           footer={[
             <Button key="back" onClick={() => { this.CloseModal() }}>
               Cancelar
@@ -213,20 +212,20 @@ class PesquisaMapaPI extends React.Component {
           ]}
         >
           <table>
-                <tr>
-                  <th>
-                    Data de Emissão de: <br />
-                    <DatePicker
-                      defaultValue={moment(this.state.dt_inicio, dateFormat)} format={dateFormat} picker="dt_inicio" 
-                      onChange={(e) => { (e != null) ?this.setState({ "dt_inicio": moment(e) }) :this.setState({ "dt_inicio": "" })}} />
-                  </th>
-                  <th>
-                    Até: <br />
-                    <DatePicker
-                      defaultValue={moment(this.state.dt_fim, dateFormat)} format={dateFormat} picker="dt_fim" 
-                      onChange={(e) => { (e != null) ?this.setState({ "dt_fim": moment(e) }) :this.setState({ "dt_fim": "" })}} />
-                  </th>
-                </tr>
+            <tr>
+              <th>
+                Data de Emissão de: <br />
+                <DatePicker
+                  defaultValue={moment(this.state.dt_inicio, dateFormat)} format={dateFormat} picker="dt_inicio"
+                  onChange={(e) => { (e != null) ? this.setState({ "dt_inicio": moment(e) }) : this.setState({ "dt_inicio": "" }) }} />
+              </th>
+              <th>
+                Até: <br />
+                <DatePicker
+                  defaultValue={moment(this.state.dt_fim, dateFormat)} format={dateFormat} picker="dt_fim"
+                  onChange={(e) => { (e != null) ? this.setState({ "dt_fim": moment(e) }) : this.setState({ "dt_fim": "" }) }} />
+              </th>
+            </tr>
           </table>
           <div>
 
@@ -239,13 +238,8 @@ class PesquisaMapaPI extends React.Component {
 
         </Modal>
 
-        {this.state.novo === true &&
-          <CadMapaPi callbackModal={(e) => { this.setState(e) }} />
-        }
+        <CadMapaPi visible={this.state.novo || this.state.editar} mapapi={this.state.selectedRowKeys[0]} closeModal={this.closeCadModal} callbackModal={(e) => { this.setState(e) }} />
 
-        {this.state.editar === true &&
-          <CadMapaPi mapapi={this.state.selectedRowKeys[0]} callbackModal={(e) => { this.setState(e) }} />
-        }
 
       </div>
 
